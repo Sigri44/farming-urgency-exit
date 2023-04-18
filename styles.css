@@ -1,0 +1,14 @@
+#walletConnexion {
+    text-align: right;
+    padding-top: 10px;
+    /* padding-right: -30px !important; */
+}
+
+.tab-pane {
+    padding-top: 10px;
+}
+
+.border-bottom {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Emergency exit SC</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+
+    </header>
+
+    <!-- Header -->
+    <div class="container">
+        <div class="row">
+            <div class="col" id="walletConnexion">
+                <div id="prepare">
+                    <button class="btn btn-primary" id="btn-connect">
+                        Connect wallet
+                    </button>
+                </div>
+
+                <div id="connected" style="display: none">
+                    <button class="btn btn-primary" id="btn-disconnect">
+                        Disconnect wallet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NavBar -->
+    <ul class="container nav nav-tabs" id="networkTab" role="tablist" style="display: none">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="true">Account</button>
+        </li>
+        <li class="nav-item dropdown" role="presentation">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Optimism</a>
+            <ul class="dropdown-menu">
+                <li><button class="nav-link dropdown-item" id="optimism-perp-tab" data-bs-toggle="tab" data-bs-target="#optimism-perp" type="button" role="tab" aria-controls="optimism-perp" aria-selected="false">PerpV2</button></li>
+                <li><button class="nav-link dropdown-item" id="optimism-lyra-tab" data-bs-toggle="tab" data-bs-target="#optimism-lyra" type="button" role="tab" aria-controls="optimism-lyra" aria-selected="false">Lyra</button></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown" role="presentation">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Arbitrum</a>
+            <ul class="dropdown-menu">
+                <li><button class="nav-link dropdown-item" id="arbitrum-lyra-tab" data-bs-toggle="tab" data-bs-target="#arbitrum-lyra" type="button" role="tab" aria-controls="arbitrum-lyra" aria-selected="false">Lyra</button></li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div class="container tab-content" id="networkTabContent" style="display: none">
+        <!-- Account Tab -->
+        <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+            <div id="network">
+                <p>
+                    <strong>Blockchain ID:</strong>
+                    <span id="network-id"></span>
+                </p>
+                <p>
+                    <strong>Blockchain name:</strong>
+                    <span id="network-name"></span>
+                </p>
+                <p>
+                    <strong>Selected account:</strong>
+                    <span id="selected-account"></span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Optimism Tab -->
+        <div class="tab-pane fade" id="optimism-perp" role="tabpanel" aria-labelledby="optimism-perp-tab">
+            <h2>Optimism - PerpV2</h2>
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Balances :</h3>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col">
+                        ETH : <span id="eth-optimism-perp-balance">0</span>
+                    </div>
+                    <div class="col">
+                        USDC : <span id="usdc-optimism-perp-balance">0</span>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="eth-optimism-perp-balance-button">Check ETH balance</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="usdc-optimism-perp-balance-button">Check USDC balance</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Deposit :</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col input-group">
+                        <input type="text" id="deposit-optimism-perp-vault-amount" placeholder="Enter deposit amount..." />
+                    </div>
+                    
+                    <div class="col">
+                        <label for="deposit-collateral-optimism-perp-select">Choose collateral :</label>
+                        <select id="deposit-collateral-optimism-perp-select">
+                            <option value="">--Please choose an option--</option>
+                            <option value="ETH">ETH</option>
+                            <option value="FRAX">FRAX</option>
+                            <option value="OP">OP</option>
+                            <option value="USDC">USDC</option>
+                            <option value="USDT">USDT</option>
+                            <option value="WETH">WETH</option>
+                        </select>
+
+                        <button type="button" class="btn btn-dark" id="deposit-optimism-perp-vault-button">Deposit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Withdraw :</h3>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col input-group">
+                        <input type="text" id="withdraw-optimism-perp-vault-amount" placeholder="Enter withdraw amount..." />
+                    </div>
+                    
+                    <div class="col">
+                        <label for="withdraw-collateral-optimism-perp-select">Choose collateral :</label>
+                        <select id="withdraw-collateral-optimism-perp-select">
+                            <option value="">--Please choose an option--</option>
+                            <option value="ETH">ETH</option>
+                            <option value="FRAX">FRAX</option>
+                            <option value="OP">OP</option>
+                            <option value="USDC">USDC</option>
+                            <option value="USDT">USDT</option>
+                            <option value="WETH">WETH</option>
+                        </select>
+
+                        <button type="button" class="btn btn-dark" id="withdraw-optimism-perp-vault-button">Withdraw</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Open position :</h3>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col input-group">
+                        <input type="text" id="open-position-optimism-perp-clearinghouse-amount" placeholder="Enter vToken amount..." />
+                    </div>
+
+                    <div class="col">
+                        <label for="open-position-side-optimism-perp-select">Choose side :</label>
+                        <select id="open-position-side-optimism-perp-select">
+                            <option value="">--Please choose side direction--</option>
+                            <option value="true">short</option>
+                            <option value="false">long</option>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label for="open-position-vtoken-optimism-perp-select">Choose vToken :</label>
+                        <select id="open-position-vtoken-optimism-perp-select">
+                            <option value="">--Please choose an option--</option>
+                            <option value="vAAVE">vAAVE</option>
+                            <option value="vATOM">vATOM</option>
+                            <option value="vAPE">vAPE</option>
+                            <option value="vAVAX">vAVAX</option>
+                            <option value="vBNB">vBNB</option>
+                            <option value="vBTC">vBTC</option>
+                            <option value="vCRV">vCRV</option>
+                            <option value="vETH">vETH</option>
+                            <option value="vFLOW">vFLOW</option>
+                            <option value="vFTM">vFTM</option>
+                            <option value="vLINK">vLINK</option>
+                            <option value="vNEAR">vNEAR</option>
+                            <option value="vONE">vONE</option>
+                            <option value="vPERP">vPERP</option>
+                            <option value="vSAND">vSAND</option>
+                            <option value="vSOL">vSOL</option>
+                            <option value="vMATIC">vMATIC</option>
+                        </select>
+
+                        <button type="button" class="btn btn-dark" id="open-position-optimism-perp-clearinghouse-button">Open position</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Close position :</h3>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col input-group">
+                        <input type="text" id="close-position-optimism-perp-clearinghouse-amount" placeholder="Enter vToken amount..." />
+                    </div>
+                    
+                    <div class="col">
+                        <label for="close-position-vtoken-optimism-perp-select">Choose vToken :</label>
+                        <select id="close-position-vtoken-optimism-perp-select">
+                            <option value="">--Please choose an option--</option>
+                            <option value="vAAVE">vAAVE</option>
+                            <option value="vATOM">vATOM</option>
+                            <option value="vAPE">vAPE</option>
+                            <option value="vAVAX">vAVAX</option>
+                            <option value="vBNB">vBNB</option>
+                            <option value="vBTC">vBTC</option>
+                            <option value="vCRV">vCRV</option>
+                            <option value="vETH">vETH</option>
+                            <option value="vFLOW">vFLOW</option>
+                            <option value="vFTM">vFTM</option>
+                            <option value="vLINK">vLINK</option>
+                            <option value="vNEAR">vNEAR</option>
+                            <option value="vONE">vONE</option>
+                            <option value="vPERP">vPERP</option>
+                            <option value="vSAND">vSAND</option>
+                            <option value="vSOL">vSOL</option>
+                            <option value="vMATIC">vMATIC</option>
+                        </select>
+
+                        <button type="button" class="btn btn-dark" id="open-position-optimism-perp-clearinghouse-button">Close position</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="optimism-lyra" role="tabpanel" aria-labelledby="optimism-lyra-tab">
+            <h2>Lyra</h2>
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Balances :</h3>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col-3">
+                        Borrowable cETH : <span id="ceth-optimism-balance">0</span>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col-3">
+                        <button type="button" class="btn btn-dark" id="ceth-optimism-balance-button">Check cETH balance</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Minting :</h3>
+                    </div>
+                    
+                    <div class="col-3">
+                        <button type="button" class="btn btn-dark" id="mint-compound-comp-button">Mint Compound-COMP (max 240)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Arbitrum Tab -->
+        <div class="tab-pane fade" id="arbitrum-lyra" role="tabpanel" aria-labelledby="arbitrum-lyra-tab">
+            <h2>Lyra</h2>
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Margin :</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        Actual Lyra Margin : <span id="usdc-arbitrum-lyra-balance">0</span>
+                    </div>
+                    <div class="col">
+                        Wallet USDC available : <span id="usdc-arbitrum-wallet-balance">0</span>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="check-balances-arbitrum-lyra-button">Check balances</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col input-group">
+                        <input type="text" id="deposit-arbitrum-lyra-margin-amount" placeholder="Enter deposit amount..." />
+                    </div>
+                    <div class="col input-group">
+                        <input type="text" id="remove-arbitrum-lyra-margin-amount" placeholder="Enter removable amount..." />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="add-margin-arbitrum-lyra-optionmarket-button">Add margin</button>
+                    </div>
+    
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="add-margin-arbitrum-lyra-optionmarket-button">Remove margin</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Positions :</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3">
+                        <button type="button" class="btn btn-dark" id="open-position-arbitrum-lyra-optionmarket-button">Open position</button>
+                    </div>
+
+                    <div class="col-3">
+                        <button type="button" class="btn btn-dark" id="close-position-arbitrum-lyra-optionmarket-button">Close position</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/web3modal"></script>
+        <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="main.js"></script>
+        <script type="text/javascript" src="ethereum.js"></script>
+        <!-- <script type="module" src="ethereum.js"></script> -->
+    </footer>
+</body>
+</html>
