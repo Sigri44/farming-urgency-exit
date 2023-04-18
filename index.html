@@ -49,6 +49,12 @@
                 <li><button class="nav-link dropdown-item" id="arbitrum-lyra-tab" data-bs-toggle="tab" data-bs-target="#arbitrum-lyra" type="button" role="tab" aria-controls="arbitrum-lyra" aria-selected="false">Lyra</button></li>
             </ul>
         </li>
+        <li class="nav-item dropdown" role="presentation">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Ethereum</a>
+            <ul class="dropdown-menu">
+                <li><button class="nav-link dropdown-item" id="ethereum-liquity-tab" data-bs-toggle="tab" data-bs-target="#ethereum-liquity" type="button" role="tab" aria-controls="ethereum-liquity" aria-selected="false">Liquity</button></li>
+            </ul>
+        </li>
     </ul>
 
     <!-- Tab content -->
@@ -252,19 +258,19 @@
             <h2>Lyra</h2>
             <div class="container border-bottom">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col">
                         <h3>Balances :</h3>
                     </div>
                 </div>
     
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col">
                         Borrowable cETH : <span id="ceth-optimism-balance">0</span>
                     </div>
                 </div>
     
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col">
                         <button type="button" class="btn btn-dark" id="ceth-optimism-balance-button">Check cETH balance</button>
                     </div>
                 </div>
@@ -272,11 +278,11 @@
 
             <div class="container border-bottom">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col">
                         <h3>Minting :</h3>
                     </div>
                     
-                    <div class="col-3">
+                    <div class="col">
                         <button type="button" class="btn btn-dark" id="mint-compound-comp-button">Mint Compound-COMP (max 240)</button>
                     </div>
                 </div>
@@ -329,18 +335,102 @@
 
             <div class="container border-bottom">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col">
                         <h3>Positions :</h3>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col">
                         <button type="button" class="btn btn-dark" id="open-position-arbitrum-lyra-optionmarket-button">Open position</button>
                     </div>
 
-                    <div class="col-3">
+                    <div class="col">
                         <button type="button" class="btn btn-dark" id="close-position-arbitrum-lyra-optionmarket-button">Close position</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ethereum Tab -->
+        <div class="tab-pane fade" id="ethereum-liquity" role="tabpanel" aria-labelledby="ethereum-liquity-tab">
+            <h2>Liquity</h2>
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Troves :</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        Actual Lyra Margin : <span id="usdc-ethereum-liquity-balance">0</span>
+                    </div>
+                    <div class="col">
+                        Wallet USDC available : <span id="usdc-arbitrum-wallet-balance">0</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="open-trove-ethereum-liquity-button">Open trove</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="close-trove-ethereum-liquity-button">Close trove</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>LUSD :</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col input-group">
+                        <input type="text" id="repay-lusd-ethereum-liquity-amount" placeholder="Enter repayable amount..." />
+                    </div>
+                    <div class="col input-group">
+                        <input type="text" id="withdraw-lusd-ethereum-liquity-amount" placeholder="Enter withdrawable amount..." />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="repay-lusd-ethereum-liquity-button">Repay LUSD</button>
+                    </div>
+    
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="withdraw-lusd-ethereum-liquity-button">Withdraw LUSD</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Collateral :</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col input-group">
+                        <input type="text" id="add-collateral-lusd-ethereum-liquity-amount" placeholder="Enter adding collateral amount..." />
+                    </div>
+                    <div class="col input-group">
+                        <input type="text" id="withdraw-collateral-lusd-ethereum-liquity-amount" placeholder="Enter withdrawable collateral amount..." />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="add-collateral-ethereum-liquity-button">Add collateral</button>
+                    </div>
+
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="withdraw-collateral-ethereum-liquity-button">Withdraw collateral</button>
                     </div>
                 </div>
             </div>
