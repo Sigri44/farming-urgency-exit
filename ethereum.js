@@ -1,17 +1,6 @@
 const PROVIDER = new ethers.providers.Web3Provider(window.ethereum)
 const SIGNER = PROVIDER.getSigner()
 
-// var fs = require('fs');
-// var jsonFile = "pathToYourJSONFile/project.json";
-// var parsed= JSON.parse(fs.readFileSync(jsonFile));
-// var abi = parsed.abi;
-
-
-// TODO : Test abi import via JSON file
-// const { abi } = require('./abi/optimism_perp_vault_proxy.json')
-
-// console.log(abi)
-
 // TODO
 // dYdX (ajout/retrait de marge) : https://dydxprotocol.github.io/v3-teacher/#perpetual-contracts
 // Velodrome (Unstake + Withdraw LP) : https://docs.velodrome.finance/security#contract-addresses
