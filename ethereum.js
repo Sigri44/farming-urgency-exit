@@ -299,7 +299,7 @@ $(document).ready(async function() {
             sqrtPriceLimitX96,
             referralCode,
             {
-                gasLimit: 1500000
+                gasLimit: 2500000
             }
 
             // address baseToken; -> vToken base address
