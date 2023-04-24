@@ -1,12 +1,6 @@
 const PROVIDER = new ethers.providers.Web3Provider(window.ethereum)
 const SIGNER = PROVIDER.getSigner()
 
-// TODO
-// dYdX (ajout/retrait de marge) : https://dydxprotocol.github.io/v3-teacher/#perpetual-contracts
-// Velodrome (Unstake + Withdraw LP) : https://docs.velodrome.finance/security#contract-addresses
-// Gearbox (ajout de marge) : https://docs.gearbox.finance/traders-and-farmers/credit-account-dashboard-overview/kak-ne-byt-rekt
-// Liquity (ajout de marge coffre + check collat ratio (recovery mode ?) + rembourser dette + cloturer coffre) : https://docs.liquity.org/documentation/resources
-
 // Contracts
 const ABIS = {
     GENERIC: {
