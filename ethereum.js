@@ -182,6 +182,32 @@ async function getCoingeckoPriceFromVtokens(vTokens) {
     return Number(coingeckoTickers[symbol].price)
 }
 
+// Hydrate open positions
+async function hydrateOpenPositions() {
+    const select = document.querySelector('#open-position-vtoken-optimism-perp-select');
+    const button = document.querySelector('#open-position-optimism-perp-clearinghouse-button');
+
+    for (const token in OPTIMISM_PERP_POOL_TOKENS) {
+        const option = document.createElement('option');
+        option.value = token;
+        option.text = token;
+        select.appendChild(option);
+    }
+}
+
+// Hydrate close positions
+async function hydrateClosePositions() {
+    const select = document.querySelector('#close-position-vtoken-optimism-perp-select');
+    const button = document.querySelector('#close-position-optimism-perp-clearinghouse-button');
+
+    for (const token in OPTIMISM_PERP_POOL_TOKENS) {
+        const option = document.createElement('option');
+        option.value = token;
+        option.text = token;
+        select.appendChild(option);
+    }
+}
+
 // function notifyMe() {
 //     // Let's check if the browser supports notifications
 //     if (!("Notification" in window)) {
@@ -213,6 +239,10 @@ $(document).ready(async function() {
     // Get coingecko tokens price
     getCoingeckoPrice()
     console.log('coingeckoTickers::', coingeckoTickers)
+
+    // Init vTokensList
+    await hydrateOpenPositions()
+    await hydrateClosePositions()
 
     $("#eth-optimism-balance-button").click(async function() {
         etherBalance = await getBalanceEther($("#selected-account").text())
