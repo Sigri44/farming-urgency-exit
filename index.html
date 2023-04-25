@@ -96,6 +96,7 @@
         <!-- PerpV2 -->
         <div class="tab-pane fade" id="optimism-perp" role="tabpanel" aria-labelledby="optimism-perp-tab">
             <h2>Optimism - PerpV2</h2>
+            <!-- Wallet balance -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
@@ -128,6 +129,7 @@
                 </div>
             </div>
 
+            <!-- Collateral -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
@@ -160,6 +162,7 @@
                 </div>
             </div>
 
+            <!-- Deposit -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
@@ -176,12 +179,6 @@
                         <label for="deposit-collateral-optimism-perp-select">Choose collateral :</label>
                         <select id="deposit-collateral-optimism-perp-select">
                             <option value="">--Please choose an option--</option>
-                            <option value="ETH">ETH</option>
-                            <option value="FRAX">FRAX</option>
-                            <option value="OP">OP</option>
-                            <option value="USDC">USDC</option>
-                            <option value="USDT">USDT</option>
-                            <option value="WETH">WETH</option>
                         </select>
 
                         <button type="button" class="btn btn-dark" id="deposit-optimism-perp-vault-button">Deposit</button>
@@ -189,6 +186,7 @@
                 </div>
             </div>
 
+            <!-- Withdraw -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
@@ -205,12 +203,6 @@
                         <label for="withdraw-collateral-optimism-perp-select">Choose collateral :</label>
                         <select id="withdraw-collateral-optimism-perp-select">
                             <option value="">--Please choose an option--</option>
-                            <option value="ETH">ETH</option>
-                            <option value="FRAX">FRAX</option>
-                            <option value="OP">OP</option>
-                            <option value="USDC">USDC</option>
-                            <option value="USDT">USDT</option>
-                            <option value="WETH">WETH</option>
                         </select>
 
                         <button type="button" class="btn btn-dark" id="withdraw-optimism-perp-vault-button">Withdraw</button>
@@ -218,6 +210,7 @@
                 </div>
             </div>
 
+            <!-- Open position -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
@@ -226,7 +219,7 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col input-group">
+                    <div class="col input-group mb-3">
                         <input type="text" id="open-position-optimism-perp-clearinghouse-amount" placeholder="Enter vToken amount..." />
                     </div>
 
@@ -239,43 +232,20 @@
                         </select>
                     </div>
 
-                    <!-- <div class="col">
-                        <label for="open-position-vtoken-optimism-perp-select">Choose vToken :</label>
-                        <select id="open-position-vtoken-optimism-perp-select">
-                            <option value="">--Please choose an option--</option>
-                            <option value="vAAVE">vAAVE</option>
-                            <option value="vATOM">vATOM</option>
-                            <option value="vAPE">vAPE</option>
-                            <option value="vAVAX">vAVAX</option>
-                            <option value="vBNB">vBNB</option>
-                            <option value="vBTC">vBTC</option>
-                            <option value="vCRV">vCRV</option>
-                            <option value="vETH">vETH</option>
-                            <option value="vFLOW">vFLOW</option>
-                            <option value="vFTM">vFTM</option>
-                            <option value="vLINK">vLINK</option>
-                            <option value="vNEAR">vNEAR</option>
-                            <option value="vONE">vONE</option>
-                            <option value="vOP">vOP</option>
-                            <option value="vPERP">vPERP</option>
-                            <option value="vSAND">vSAND</option>
-                            <option value="vSOL">vSOL</option>
-                            <option value="vMATIC">vMATIC</option>
-                        </select>
-
-                        <button type="button" class="btn btn-dark" id="open-position-optimism-perp-clearinghouse-button">Open position</button>
-                    </div> -->
-
                     <div class="col">
                         <label for="open-position-vtoken-optimism-perp-select">Choose vToken :</label>
                         <select id="open-position-vtoken-optimism-perp-select">
                           <option value="">--Please choose an option--</option>
                         </select>
+                    </div>
+
+                    <div class="col">
                         <button type="button" class="btn btn-dark" id="open-position-optimism-perp-clearinghouse-button">Open position</button>
                     </div>
                 </div>
             </div>
 
+            <!-- Close position -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
@@ -284,49 +254,25 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col input-group">
+                    <div class="col input-group mb-3">
                         <input type="text" id="close-position-optimism-perp-clearinghouse-amount" placeholder="Enter vToken amount..." />
                     </div>
 
-                    <div class="col input-group">
+                    <div class="col input-group mb-3">
                         <input type="number" id="close-position-slippage-optimism-perp-amount" placeholder="Choose slippage..." />
                         <div class="input-group-append">
                             <span class="input-group-text">%</span>
                         </div>
                     </div>
-                    
-                    <!-- <div class="col">
-                        <label for="close-position-vtoken-optimism-perp-select">Choose vToken :</label>
-                        <select id="close-position-vtoken-optimism-perp-select">
-                            <option value="">--Please choose an option--</option>
-                            <option value="vAAVE">vAAVE</option>
-                            <option value="vATOM">vATOM</option>
-                            <option value="vAPE">vAPE</option>
-                            <option value="vAVAX">vAVAX</option>
-                            <option value="vBNB">vBNB</option>
-                            <option value="vBTC">vBTC</option>
-                            <option value="vCRV">vCRV</option>
-                            <option value="vETH">vETH</option>
-                            <option value="vFLOW">vFLOW</option>
-                            <option value="vFTM">vFTM</option>
-                            <option value="vLINK">vLINK</option>
-                            <option value="vNEAR">vNEAR</option>
-                            <option value="vONE">vONE</option>
-                            <option value="vOP">vOP</option>
-                            <option value="vPERP">vPERP</option>
-                            <option value="vSAND">vSAND</option>
-                            <option value="vSOL">vSOL</option>
-                            <option value="vMATIC">vMATIC</option>
-                        </select>
-
-                        <button type="button" class="btn btn-dark" id="close-position-optimism-perp-clearinghouse-button">Close position</button>
-                    </div> -->
 
                     <div class="col">
                         <label for="close-position-vtoken-optimism-perp-select">Choose vToken :</label>
                         <select id="close-position-vtoken-optimism-perp-select">
                           <option value="">--Please choose an option--</option>
                         </select>
+                    </div>
+
+                    <div class="col">
                         <button type="button" class="btn btn-dark" id="close-position-optimism-perp-clearinghouse-button">Close position</button>
                     </div>
                 </div>

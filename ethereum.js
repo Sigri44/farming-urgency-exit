@@ -182,10 +182,33 @@ async function getCoingeckoPriceFromVtokens(vTokens) {
     return Number(coingeckoTickers[symbol].price)
 }
 
+// Hydrate deposit vault
+async function hydrateDepositVault() {
+    const select = document.querySelector('#deposit-collateral-optimism-perp-select');
+
+    for (const token in OPTIMISM_PERP_VAULT_TOKENS) {
+        const option = document.createElement('option');
+        option.value = token;
+        option.text = token;
+        select.appendChild(option);
+    }
+}
+
+// Hydrate withdraw vault
+async function hydrateWithdrawVault() {
+    const select = document.querySelector('#withdraw-collateral-optimism-perp-select');
+
+    for (const token in OPTIMISM_PERP_VAULT_TOKENS) {
+        const option = document.createElement('option');
+        option.value = token;
+        option.text = token;
+        select.appendChild(option);
+    }
+}
+
 // Hydrate open positions
 async function hydrateOpenPositions() {
     const select = document.querySelector('#open-position-vtoken-optimism-perp-select');
-    const button = document.querySelector('#open-position-optimism-perp-clearinghouse-button');
 
     for (const token in OPTIMISM_PERP_POOL_TOKENS) {
         const option = document.createElement('option');
@@ -198,7 +221,6 @@ async function hydrateOpenPositions() {
 // Hydrate close positions
 async function hydrateClosePositions() {
     const select = document.querySelector('#close-position-vtoken-optimism-perp-select');
-    const button = document.querySelector('#close-position-optimism-perp-clearinghouse-button');
 
     for (const token in OPTIMISM_PERP_POOL_TOKENS) {
         const option = document.createElement('option');
@@ -241,6 +263,8 @@ $(document).ready(async function() {
     console.log('coingeckoTickers::', coingeckoTickers)
 
     // Init vTokensList
+    await hydrateDepositVault()
+    await hydrateWithdrawVault()
     await hydrateOpenPositions()
     await hydrateClosePositions()
 
@@ -761,9 +785,7 @@ function init() {
     });
 }
 
-/**
- * Kick in the UI action after Web3modal dialog has chosen a provider
- */
+// Kick in the UI action after Web3modal dialog has chosen a provider
 async function fetchAccountData() {
     // Get connected chain id from Ethereum node
     const chain = await PROVIDER.getNetwork();
@@ -805,9 +827,7 @@ async function refreshAccountData() {
     document.querySelector("#btn-connect").removeAttribute("disabled")
 }
 
-/**
- * Connect wallet button pressed.
- */
+// Connect wallet button pressed.
 async function onConnect() {
     // console.log("Opening a dialog", web3Modal);
     try {
@@ -838,9 +858,7 @@ async function onConnect() {
     await refreshAccountData();
 }
 
-/**
- * Disconnect wallet button pressed.
- */
+// Disconnect wallet button pressed.
 async function onDisconnect() {
     console.log("Killing the wallet connection", PROVIDER);
 
@@ -860,9 +878,7 @@ async function onDisconnect() {
     document.querySelector("#networkTabContent").style.display = "none";
 }
 
-/**
- * Main entry point.
- */
+// Main entry point.
 window.addEventListener('load', async () => {
     init();
     document.querySelector("#btn-connect").addEventListener("click", onConnect);
