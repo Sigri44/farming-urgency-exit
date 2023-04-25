@@ -93,6 +93,7 @@
         </div>
 
         <!-- Optimism Tab -->
+        <!-- PerpV2 -->
         <div class="tab-pane fade" id="optimism-perp" role="tabpanel" aria-labelledby="optimism-perp-tab">
             <h2>Optimism - PerpV2</h2>
             <div class="container border-bottom">
@@ -107,6 +108,9 @@
                         ETH : <span id="eth-optimism-balance">0</span>
                     </div>
                     <div class="col">
+                        wETH : <span id="weth-optimism-balance">0</span>
+                    </div>
+                    <div class="col">
                         USDC : <span id="usdc-optimism-balance">0</span>
                     </div>
                 </div>
@@ -114,6 +118,9 @@
                 <div class="row">
                     <div class="col">
                         <button type="button" class="btn btn-dark" id="eth-optimism-balance-button">Check ETH balance</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="weth-optimism-balance-button">Check wETH balance</button>
                     </div>
                     <div class="col">
                         <button type="button" class="btn btn-dark" id="usdc-optimism-balance-button">Check USDC balance</button>
@@ -133,6 +140,9 @@
                         ETH : <span id="eth-optimism-perp-balance">0</span>
                     </div>
                     <div class="col">
+                        wETH : <span id="weth-optimism-perp-balance">0</span>
+                    </div>
+                    <div class="col">
                         USDC : <span id="usdc-optimism-perp-balance">0</span>
                     </div>
                 </div>
@@ -140,6 +150,9 @@
                 <div class="row">
                     <div class="col">
                         <button type="button" class="btn btn-dark" id="eth-optimism-perp-balance-button">Check ETH balance</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="weth-optimism-perp-balance-button">Check wETH balance</button>
                     </div>
                     <div class="col">
                         <button type="button" class="btn btn-dark" id="usdc-optimism-perp-balance-button">Check USDC balance</button>
@@ -265,6 +278,13 @@
                     <div class="col input-group">
                         <input type="text" id="close-position-optimism-perp-clearinghouse-amount" placeholder="Enter vToken amount..." />
                     </div>
+
+                    <div class="col input-group">
+                        <input type="number" id="close-position-slippage-optimism-perp-amount" placeholder="Choose slippage..." />
+                        <div class="input-group-append">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
                     
                     <div class="col">
                         <label for="close-position-vtoken-optimism-perp-select">Choose vToken :</label>
@@ -289,12 +309,13 @@
                             <option value="vMATIC">vMATIC</option>
                         </select>
 
-                        <button type="button" class="btn btn-dark" id="open-position-optimism-perp-clearinghouse-button">Close position</button>
+                        <button type="button" class="btn btn-dark" id="close-position-optimism-perp-clearinghouse-button">Close position</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Lyra -->
         <div class="tab-pane fade" id="optimism-lyra" role="tabpanel" aria-labelledby="optimism-lyra-tab">
             <h2>Lyra</h2>
             <div class="container border-bottom">
@@ -330,6 +351,7 @@
             </div>
         </div>
 
+        <!-- Velodrome -->
         <div class="tab-pane fade" id="optimism-velodrome" role="tabpanel" aria-labelledby="optimism-velodrome-tab">
             <h2>Velodrome</h2>
             <div class="container border-bottom">
@@ -346,6 +368,7 @@
         </div>
 
         <!-- Arbitrum Tab -->
+        <!-- Lyra -->
         <div class="tab-pane fade" id="arbitrum-lyra" role="tabpanel" aria-labelledby="arbitrum-lyra-tab">
             <h2>Lyra</h2>
             <div class="container border-bottom">
@@ -409,6 +432,7 @@
         </div>
 
         <!-- Ethereum Tab -->
+        <!-- Liquity -->
         <div class="tab-pane fade" id="ethereum-liquity" role="tabpanel" aria-labelledby="ethereum-liquity-tab">
             <h2>Liquity</h2>
             <div class="container border-bottom">
@@ -494,6 +518,7 @@
 
         <!-- Testnet Tab -->
         <div class="tab-pane fade" id="testnet-perp" role="tabpanel" aria-labelledby="optimism-perp-tab">
+            <!--
             <h2>Testnet - PerpV2</h2>
             <div class="container border-bottom">
                 <div class="row">
@@ -649,7 +674,7 @@
                             <option value="vMATIC">vMATIC</option>
                         </select>
 
-                        <button type="button" class="btn btn-dark" id="open-position-optimism-perp-clearinghouse-button">Open position</button>
+                        <button type="button" class="btn btn-dark" id="open-position-testnet-perp-clearinghouse-button">Open position</button>
                     </div>
                 </div>
             </div>
@@ -663,12 +688,12 @@
                 
                 <div class="row">
                     <div class="col input-group">
-                        <input type="text" id="close-position-optimism-perp-clearinghouse-amount" placeholder="Enter vToken amount..." />
+                        <input type="text" id="close-position-testnet-perp-clearinghouse-amount" placeholder="Enter vToken amount..." />
                     </div>
                     
                     <div class="col">
-                        <label for="close-position-vtoken-optimism-perp-select">Choose vToken :</label>
-                        <select id="close-position-vtoken-optimism-perp-select">
+                        <label for="close-position-vtoken-testnet-perp-select">Choose vToken :</label>
+                        <select id="close-position-vtoken-testnet-perp-select">
                             <option value="">--Please choose an option--</option>
                             <option value="vAAVE">vAAVE</option>
                             <option value="vATOM">vATOM</option>
@@ -693,6 +718,7 @@
                     </div>
                 </div>
             </div>
+            -->
         </div>
     </div>
 

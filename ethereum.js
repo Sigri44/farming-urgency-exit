@@ -1,5 +1,6 @@
 const PROVIDER = new ethers.providers.Web3Provider(window.ethereum)
 const SIGNER = PROVIDER.getSigner()
+const COINGECKO_URI = 'https://api.coingecko.com/api/v3/simple/price?vs_currencies=usd&ids='
 
 // Contracts
 const ABIS = {
@@ -17,6 +18,34 @@ const ABIS = {
     ETHEREUM: {
         LIQUITY_BORROWERS_OPERATIONS: '[{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_activePoolAddress","type":"address"}],"name":"ActivePoolAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_collSurplusPoolAddress","type":"address"}],"name":"CollSurplusPoolAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_defaultPoolAddress","type":"address"}],"name":"DefaultPoolAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_gasPoolAddress","type":"address"}],"name":"GasPoolAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_lqtyStakingAddress","type":"address"}],"name":"LQTYStakingAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_borrower","type":"address"},{"indexed":false,"internalType":"uint256","name":"_LUSDFee","type":"uint256"}],"name":"LUSDBorrowingFeePaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_lusdTokenAddress","type":"address"}],"name":"LUSDTokenAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_newPriceFeedAddress","type":"address"}],"name":"PriceFeedAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_sortedTrovesAddress","type":"address"}],"name":"SortedTrovesAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_stabilityPoolAddress","type":"address"}],"name":"StabilityPoolAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_borrower","type":"address"},{"indexed":false,"internalType":"uint256","name":"arrayIndex","type":"uint256"}],"name":"TroveCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"_newTroveManagerAddress","type":"address"}],"name":"TroveManagerAddressChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"_borrower","type":"address"},{"indexed":false,"internalType":"uint256","name":"_debt","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"_coll","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"stake","type":"uint256"},{"indexed":false,"internalType":"enum BorrowerOperations.BorrowerOperation","name":"operation","type":"uint8"}],"name":"TroveUpdated","type":"event"},{"inputs":[],"name":"BORROWING_FEE_FLOOR","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"CCR","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"DECIMAL_PRECISION","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"LUSD_GAS_COMPENSATION","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MCR","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_NET_DEBT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"NAME","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"PERCENT_DIVISOR","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"_100pct","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"activePool","outputs":[{"internalType":"contract IActivePool","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_upperHint","type":"address"},{"internalType":"address","name":"_lowerHint","type":"address"}],"name":"addColl","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_maxFeePercentage","type":"uint256"},{"internalType":"uint256","name":"_collWithdrawal","type":"uint256"},{"internalType":"uint256","name":"_LUSDChange","type":"uint256"},{"internalType":"bool","name":"_isDebtIncrease","type":"bool"},{"internalType":"address","name":"_upperHint","type":"address"},{"internalType":"address","name":"_lowerHint","type":"address"}],"name":"adjustTrove","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"claimCollateral","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"closeTrove","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"defaultPool","outputs":[{"internalType":"contract IDefaultPool","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_debt","type":"uint256"}],"name":"getCompositeDebt","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"pure","type":"function"},{"inputs":[],"name":"getEntireSystemColl","outputs":[{"internalType":"uint256","name":"entireSystemColl","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getEntireSystemDebt","outputs":[{"internalType":"uint256","name":"entireSystemDebt","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isOwner","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lqtyStaking","outputs":[{"internalType":"contract ILQTYStaking","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lqtyStakingAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lusdToken","outputs":[{"internalType":"contract ILUSDToken","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_borrower","type":"address"},{"internalType":"address","name":"_upperHint","type":"address"},{"internalType":"address","name":"_lowerHint","type":"address"}],"name":"moveETHGainToTrove","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_maxFeePercentage","type":"uint256"},{"internalType":"uint256","name":"_LUSDAmount","type":"uint256"},{"internalType":"address","name":"_upperHint","type":"address"},{"internalType":"address","name":"_lowerHint","type":"address"}],"name":"openTrove","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"priceFeed","outputs":[{"internalType":"contract IPriceFeed","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_LUSDAmount","type":"uint256"},{"internalType":"address","name":"_upperHint","type":"address"},{"internalType":"address","name":"_lowerHint","type":"address"}],"name":"repayLUSD","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_troveManagerAddress","type":"address"},{"internalType":"address","name":"_activePoolAddress","type":"address"},{"internalType":"address","name":"_defaultPoolAddress","type":"address"},{"internalType":"address","name":"_stabilityPoolAddress","type":"address"},{"internalType":"address","name":"_gasPoolAddress","type":"address"},{"internalType":"address","name":"_collSurplusPoolAddress","type":"address"},{"internalType":"address","name":"_priceFeedAddress","type":"address"},{"internalType":"address","name":"_sortedTrovesAddress","type":"address"},{"internalType":"address","name":"_lusdTokenAddress","type":"address"},{"internalType":"address","name":"_lqtyStakingAddress","type":"address"}],"name":"setAddresses","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"sortedTroves","outputs":[{"internalType":"contract ISortedTroves","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"troveManager","outputs":[{"internalType":"contract ITroveManager","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_collWithdrawal","type":"uint256"},{"internalType":"address","name":"_upperHint","type":"address"},{"internalType":"address","name":"_lowerHint","type":"address"}],"name":"withdrawColl","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_maxFeePercentage","type":"uint256"},{"internalType":"uint256","name":"_LUSDAmount","type":"uint256"},{"internalType":"address","name":"_upperHint","type":"address"},{"internalType":"address","name":"_lowerHint","type":"address"}],"name":"withdrawLUSD","outputs":[],"stateMutability":"nonpayable","type":"function"}]'
     }
+}
+
+const coingeckoTickers = {
+	"aave": {"ticker": "aave", "price": 0},
+	"atom": {"ticker": "cosmos", "price": 0},
+	"ape": {"ticker": "apecoin", "price": 0},
+	"avax": {"ticker": "avalanche-2", "price": 0},
+	"bnb": {"ticker": "binancecoin", "price": 0},
+	"btc": {"ticker": "bitcoin", "price": 0},
+	"eth": {"ticker": "ethereum", "price": 0},
+	"flow": {"ticker": "flow", "price": 0},
+	"frax": {"ticker": "frax", "price": 0},
+	"ftm": {"ticker": "fantom", "price": 0},
+	"link": {"ticker": "chainlink", "price": 0},
+	"matic": {"ticker": "matic-network", "price": 0},
+	"mps": {"ticker": "mt-pelerin-shares", "price": 0},
+	"near": {"ticker": "near", "price": 0},
+	"one": {"ticker": "harmony", "price": 0},
+	"op": {"ticker": "optimism", "price": 0},
+	"perp": {"ticker": "perpetual-protocol", "price": 0},
+	"sand": {"ticker": "the-sandbox", "price": 0},
+	"sol": {"ticker": "solana", "price": 0},
+	"usdc": {"ticker": "usd-coin", "price": 0},
+	"usdt": {"ticker": "tether", "price": 0},
+	"weth": {"ticker": "weth", "price": 0},
+	"wmatic": {"ticker": "wmatic", "price": 0},
+	// MANUAL
+	"custom": {"price": 0},
 }
 
 // ERC20 Contract
@@ -117,6 +146,7 @@ const OPTIMISM_PERP_POOL_TOKENS = {
     'vLINK' : '0x2f198182ec54469195a4a06262a9431a42462373',
     'vNEAR': '0x3Fb3282e3BA34A0Bff94845f1800Eb93CC6850d4',
     'vONE': '0x77d0cc9568605bFfF32F918C8FFaa53F72901416',
+    'vOP': '0x5A7eD3ce6096228a9fE1B673830e6A78C9CFB71b',
     'vPERP' : '0x9482aafdced6b899626f465e1fa0cf1b1418d797',
     'vSAND': '0x333b1eA429a88d0dd48cE7C06C16609CD76F43A8',
     'vSOL': '0x151Bb01c79F4516c233948D69daE39869BCcB737',
@@ -125,6 +155,31 @@ const OPTIMISM_PERP_POOL_TOKENS = {
 
 async function getBalanceEther(address) {
     return ethers.utils.formatEther(await PROVIDER.getBalance(address))
+}
+
+const getCoingeckoPrice = async () => {
+	let tokenIds = []
+	for(ticker in coingeckoTickers) {
+		tokenIds.push(coingeckoTickers[ticker].ticker)
+	}
+	const response = await fetch(COINGECKO_URI + tokenIds.join(","))
+	const prices = await response.json()
+	// Hydrate tickers array to add price
+	for (symbol in coingeckoTickers) {
+		if (prices[coingeckoTickers[symbol].ticker]) {
+			coingeckoTickers[symbol].price = prices[coingeckoTickers[symbol].ticker].usd
+		}
+	}
+}
+
+// parse vTokens into getCoingeckoPrice
+async function getCoingeckoPriceFromVtokens(vTokens) {
+    const symbol = vTokens.replace('v', '').toLowerCase()
+
+    // DEBUG
+    console.log("symbol::", symbol)
+
+    return Number(coingeckoTickers[symbol].price)
 }
 
 // function notifyMe() {
@@ -155,9 +210,25 @@ async function getBalanceEther(address) {
 // }
 
 $(document).ready(async function() {
+    // Get coingecko tokens price
+    getCoingeckoPrice()
+    console.log('coingeckoTickers::', coingeckoTickers)
+
     $("#eth-optimism-balance-button").click(async function() {
         etherBalance = await getBalanceEther($("#selected-account").text())
         $("#eth-optimism-balance").text(etherBalance)
+    })
+    $("#weth-optimism-balance-button").click(async function() {
+        contractAddress = generateErc20Contract(OPTIMISM_PERP_VAULT_TOKENS['WETH']['address'])
+        console.log(contractAddress)
+        balanceOfWei = await contractAddress.balanceOf(
+            $("#selected-account").text(),
+        )
+
+        console.log(balanceOfWei)
+
+        balanceOf = ethers.utils.formatUnits(balanceOfWei, OPTIMISM_PERP_VAULT_TOKENS['WETH']['decimals'])
+        $("#weth-optimism-balance").text(balanceOf)
     })
     $("#usdc-optimism-balance-button").click(async function() {
         contractAddress = generateErc20Contract(OPTIMISM_PERP_VAULT_TOKENS['USDC']['address'])
@@ -181,8 +252,19 @@ $(document).ready(async function() {
 
         console.log(balanceOfWei)
 
-        balanceOf = ethers.utils.formatUnits(balanceOfWei, OPTIMISM_PERP_VAULT_TOKENS['ETH']['decimals'])
+        balanceOf = ethers.utils.formatUnits(balanceOfWei, OPTIMISM_PERP_VAULT_TOKENS['WETH']['decimals'])
         $("#eth-optimism-perp-balance").text(balanceOf)
+    })
+    $("#weth-optimism-perp-balance-button").click(async function() {
+        balanceOfWei = await OPTIMISM_PERP_VAULT_PROXY_INTERACTION.getBalanceByToken(
+            $("#selected-account").text(),
+            OPTIMISM_PERP_VAULT_TOKENS['WETH']['address']
+        )
+
+        console.log(balanceOfWei)
+
+        balanceOf = ethers.utils.formatUnits(balanceOfWei, OPTIMISM_PERP_VAULT_TOKENS['WETH']['decimals'])
+        $("#weth-optimism-perp-balance").text(balanceOf)
     })
     $("#usdc-optimism-perp-balance-button").click(async function() {
         balanceOfWei = await OPTIMISM_PERP_VAULT_PROXY_INTERACTION.getBalanceByToken(
@@ -311,14 +393,25 @@ $(document).ready(async function() {
 
     // PerpV2 - Optimism - Close Position
     $("#close-position-optimism-perp-clearinghouse-button").click(async function() {
+        const slippage = Number($("#close-position-slippage-optimism-perp-amount").val())
         const currentDate = new Date();
+        const amount = Number($("#close-position-optimism-perp-clearinghouse-amount").val())
         const vtoken = $("#close-position-vtoken-optimism-perp-select").val()
-        const oppositeAmountBound = "0"
+        let oppositeAmountBound = 0
         const sqrtPriceLimitX96 = "0"
         const timestamp = currentDate.getTime();
         const deadline = timestamp + 300000; // + 5 minutes
         const referralCode = "0x0000000000000000000000000000000000000000000000000000000000000000"
-        
+
+        const price = await getCoingeckoPriceFromVtokens(vtoken)
+        console.log("price::", typeof price, price)
+        console.log("amount::", typeof amount, amount)
+        console.log("slippage::", typeof slippage, slippage)
+        // If long, price - 1% = 1% slippage, ex : For 100 long PERP at 0.70$, set 69300000000000000000 (0.693$ = - 1%)
+        //0.70 - ((0.7 * 1) / 100)
+        oppositeAmountBound = (price - ((price * slippage) / 100)) * amount
+        console.log("oppositeAmountBound::", typeof oppositeAmountBound, oppositeAmountBound)
+
         // Debug transaction
         const transaction_debug = {
             "baseToken": OPTIMISM_PERP_POOL_TOKENS[vtoken],
@@ -334,7 +427,7 @@ $(document).ready(async function() {
         const tx = await clearingHouseContract.closePosition([
             OPTIMISM_PERP_POOL_TOKENS[vtoken],
             sqrtPriceLimitX96,
-            oppositeAmountBound,
+            ethers.utils.parseUnits(oppositeAmountBound.toString(), 18),
             deadline,
             referralCode,
             {
