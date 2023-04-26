@@ -162,6 +162,47 @@
                 </div>
             </div>
 
+            <!-- Check all balances -->
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="total-optimism-perp-balance-button">Check all balances</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Positions -->
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Positions :</h3>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <table id="perp-positions" class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">vToken</th>
+                            <th scope="col">Side</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Value</th>
+                            <th scope="col">Slippage</th>
+                            <th scope="col">Close</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+    
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="optimism-perp-positions-button">Refresh positions</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Deposit -->
             <div class="container border-bottom">
                 <div class="row">
