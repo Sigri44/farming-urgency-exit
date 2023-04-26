@@ -206,7 +206,6 @@ async function checkAllOptimismPerpBalances() {
     $("#usdc-optimism-perp-balance").text(await getOptimismPerpBalance(OPTIMISM_PERP_VAULT_TOKENS['USDC']['address'], OPTIMISM_PERP_VAULT_TOKENS['USDC']['decimals']))
 }
 
-
 const getCoingeckoPrice = async () => {
 	let tokenIds = []
 	for(ticker in coingeckoTickers) {
@@ -296,7 +295,7 @@ async function getChainlinkOraclePriceFeed(oraclePriceFeedAddress) {
     return ethers.utils.formatEther(price)
 }
 
-function addPerpPositionRow(symbol, side, amount, value) {
+function addPerpPositionRow(symbol, side, amount) {
     // Symbol
     var x = document.createElement("tr")
     var a = document.createElement("td")
@@ -313,12 +312,6 @@ function addPerpPositionRow(symbol, side, amount, value) {
     // Amount
     a = document.createElement("td")
     anode = document.createTextNode(amount)
-    a.appendChild(anode)
-    x.appendChild(a)
-
-    // Value
-    a = document.createElement("td")
-    anode = document.createTextNode(value + " $")
     a.appendChild(anode)
     x.appendChild(a)
 
@@ -349,7 +342,6 @@ function addPerpPositionRow(symbol, side, amount, value) {
     a.appendChild(anode)
     x.appendChild(a)
 
-    // document.getElementById("perp-positions").appendChild(x)
     document.querySelector("#perp-positions tbody").appendChild(x)
 }
 
@@ -367,14 +359,18 @@ async function hydratePerpPositions() {
         )
 
         const amount = ethers.utils.formatEther(tuppleResponse[0])
-        const value = Number(ethers.utils.formatEther(tuppleResponse[1])).toFixed(4)
 
         if (amount != 0.0) {
             // Side position
             let side = "long"
             if (amount < 0) side = "short"
 
-            addPerpPositionRow(symbol, side, amount, value)
+            addPerpPositionRow(symbol, side, amount)
+
+            // console.log("DEBUG::tuppleResponse", tuppleResponse)
+            // console.log("DEBUG::tuppleResponse[0]", ethers.utils.formatEther(tuppleResponse[0]))
+            // console.log("DEBUG::tuppleResponse[1]", ethers.utils.formatEther(tuppleResponse[1]))
+            // console.log("DEBUG::tuppleResponse[2]", ethers.utils.formatEther(tuppleResponse[2]))
         }
     }
     console.log("DEBUG:: PerpV2 positions hydrated - Finished !")
@@ -573,7 +569,7 @@ $(document).ready(async function() {
         const vToken = row[0].cells[0].textContent
         const sidePosition = row[0].cells[1].textContent
         const amount = Number(row[0].cells[2].textContent)
-        const slippage = Number(row[0].cells[4].getElementsByTagName('input')[0].value)
+        const slippage = Number(row[0].cells[3].getElementsByTagName('input')[0].value)
         const currentDate = new Date()
         const baseToken = PERPV2_METADATA['contracts'][vToken]['address']
         let oppositeAmountBound = 0
@@ -629,33 +625,6 @@ $(document).ready(async function() {
     $('#perp-positions').on('click', '.close-prep-optimism-position-button', function() {
         const button = $(this)
         closeOptimismPerpPosition(button)
-    })
-
-    // Velodrome - Optimism - 
-    $("#add-liquity-optimism-velodrome-button").click(async function() {
-        const addLiquidity = OPTIMISM_VELODROME_ROUTER_INTERACTION.addLiquidity(
-
-            // tokenA (address)
-            // tokenA (address)
-            // tokenB (address)
-            // tokenB (address)
-            // stable (bool)
-            // stable (bool)
-            // amountADesired (uint256)
-            // amountADesired (uint256)
-            // amountBDesired (uint256)
-            // amountBDesired (uint256)
-            // amountAMin (uint256)
-            // amountAMin (uint256)
-            // amountBMin (uint256)
-            // amountBMin (uint256)
-            // to (address)
-            // to (address)
-            // deadline (uint256)
-            // deadline (uint256)
-        )
-
-        console.log("addLiquidity::", addLiquidity)
     })
 
     // Lyra - Arbitrum - Buy ETH CALL
@@ -1014,4 +983,4 @@ window.addEventListener('load', async () => {
     init();
     document.querySelector("#btn-connect").addEventListener("click", onConnect);
     document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
-});
+})
