@@ -373,17 +373,51 @@
                 </div>
             </div>
 
+            <!-- Remove Liquidity -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
                         <h3>Liquidity :</h3>
                     </div>
-                    
-                    <div class="col">
-                        <button type="button" class="btn btn-dark" id="add-liquidity-optimism-velodrome-button">Add liquidity</button>
-                    </div>
-                    <div class="col">
+
+                    <div class="row">
+                        <div class="col input-group">
+                            <input type="text" id="deposit-optimism-velodrome-vault-amount" placeholder="Enter deposit amount..." />
+                        </div>
+                        
+                        <div class="col">
+                            <label for="tokena-optimism-velodrome-select">Choose token A :</label>
+                            <select id="tokena-optimism-velodrome-select">
+                                <option value="">--Please choose an option--</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col">
+                            <label for="tokenb-optimism-velodrome-select">Choose token B :</label>
+                            <select id="tokenb-optimism-velodrome-select">
+                                <option value="">--Please choose an option--</option>
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <label for="type-optimism-velodrome-select">Choose LP type</label>
+                            <select id="type-optimism-velodrome-select">
+                                <option value="">--Please choose an option--</option>
+                                <option value="true">Stable</option>
+                                <option value="false">Volatile</option>
+                            </select>
+                        </div>
+
+                        <div class="col input-group">
+                            <input type="text" id="withdraw-optimism-velodrome-vault-amount" placeholder="Enter withdraw amount..." />
+                        </div>
+
+                        <div class="col input-group">
+                            <input type="text" id="slippage-optimism-velodrome-vault-amount" placeholder="Slippage" />
+                        </div>
+
                         <button type="button" class="btn btn-dark" id="remove-liquidity-optimism-velodrome-button">Remove liquidity</button>
+
                     </div>
                 </div>
             </div>

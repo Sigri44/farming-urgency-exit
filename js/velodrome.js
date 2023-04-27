@@ -2,9 +2,65 @@
 const OPTIMISM_VELODROME_ROUTER_CONTRACT = '0x9c12939390052919aF3155f41Bf4160Fd3666A6f'
 const OPTIMISM_VELODROME_ROUTER_INTERACTION = new ethers.Contract(
     OPTIMISM_VELODROME_ROUTER_CONTRACT,
-    ABIS['OPTIMISM']['VELODROME_ROUTER'],
+    ABIS['OPTIMISM']['VELODROME']['VELODROME_ROUTER'],
     PROVIDER
 )
+
+// Perp Vault tokens
+const OPTIMISM_VELODROME_TOKENS = {
+    'agEUR' : {
+        'address' : '0x9485aca5bbBE1667AD97c7fE7C4531a624C8b1ED',
+        'decimals' : 18,
+    },
+    'DAI' : {
+        'address' : '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1',
+        'decimals' : 18,
+    },
+    'LUSD' : {
+        'address' : '0xc40F949F8a4e094D1b49a23ea9241D289B7b2819',
+        'decimals' : 18,
+    },
+    'OP' : {
+        'address' : '0x4200000000000000000000000000000000000042',
+        'decimals' : 18,
+    },
+    'rETH' : {
+        'address' : '0x9Bcef72be871e61ED4fBbc7630889beE758eb81D',
+        'decimals' : 18,
+    },
+    'sETH' : {
+        'address' : '0xE405de8F52ba7559f9df3C368500B6E6ae6Cee49',
+        'decimals' : 18,
+    },
+    'sUSD' : {
+        'address' : '0x8c6f28f2F1A3C87F0f938b96d27520d9751ec8d9',
+        'decimals' : 18,
+    },
+    'USDC' : {
+        'address' : '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
+        'decimals' : 6,
+    },
+    'USDT' : {
+        'address' : '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58',
+        'decimals' : 6,
+    },
+    'USD+' : {
+        'address' : '0x73cb180bf0521828d8849bc8CF2B920918e23032',
+        'decimals' : 6,
+    },
+    'VELO' : {
+        'address' : '0x3c8B650257cFb5f272f799F5e2b4e65093a11a05',
+        'decimals' : 18,
+    },
+    'WETH' : {
+        'address' : '0x4200000000000000000000000000000000000006',
+        'decimals' : 6,
+    },
+    'wstETH' : {
+        'address' : '0x1F32b1c2345538c0c6f582fCB022739c4A194Ebb',
+        'decimals' : 18,
+    },
+}
 
 $(document).ready(async function() {
     console.log("DEBUG::Velodrome loaded.")
@@ -81,20 +137,30 @@ $(document).ready(async function() {
 
     // Velodrome - Optimism - 
     $("#add-liquidity-optimism-velodrome-button").click(async function() {
-        console.log("PROVIDER::", typeof PROVIDER, PROVIDER)
-        const addLiquidity = OPTIMISM_VELODROME_ROUTER_INTERACTION.addLiquidity(
+        const currentDate = new Date()
+        const timestamp = currentDate.getTime()
+        const deadline = timestamp + 300000 // + 5 minutes
+        const tokenA = (address)
+        const tokenB = (address)
+        const liquidity = $("withdraw-optimism-velodrome-vault-amount").val() // amount of LP tokens
+        const isStable = $("type-optimism-velodrome-select").val()
+        const amountAMin = (uint256) // slippage
+        const amountBMin = (uint256) // slippage
+        const to = $("#selected-account").text()
 
-            // tokenA (address)
-            // tokenB (address)
-            // stable (bool)
-            // amountADesired (uint256)
-            // amountBDesired (uint256)
-            // amountAMin (uint256)
-            // amountBMin (uint256)
-            // to (address)
-            // deadline (uint256)
-        )
+        const removeLiquidity = OPTIMISM_VELODROME_ROUTER_INTERACTION.removeLiquidity({
+            tokenA,
+            tokenB,
+            liquidity,
+            stable,
+            amountAMin,
+            amountBMin,
+            to,
+            deadline,
+        })
 
-        console.log("addLiquidity::", addLiquidity)
+
+
+        console.log("removeLiquidity::", removeLiquidity)
     })
 })
