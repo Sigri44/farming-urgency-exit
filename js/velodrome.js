@@ -85,22 +85,13 @@ $(document).ready(async function() {
         const addLiquidity = OPTIMISM_VELODROME_ROUTER_INTERACTION.addLiquidity(
 
             // tokenA (address)
-            // tokenA (address)
-            // tokenB (address)
             // tokenB (address)
             // stable (bool)
-            // stable (bool)
-            // amountADesired (uint256)
             // amountADesired (uint256)
             // amountBDesired (uint256)
-            // amountBDesired (uint256)
-            // amountAMin (uint256)
             // amountAMin (uint256)
             // amountBMin (uint256)
-            // amountBMin (uint256)
             // to (address)
-            // to (address)
-            // deadline (uint256)
             // deadline (uint256)
         )
 
