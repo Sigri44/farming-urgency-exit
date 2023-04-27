@@ -1,9 +1,6 @@
 const PROVIDER = new ethers.providers.Web3Provider(window.ethereum)
 const SIGNER = PROVIDER.getSigner()
 const COINGECKO_URI = 'https://api.coingecko.com/api/v3/simple/price?vs_currencies=usd&ids='
-// const PERP_METADATA_URI = 'https://metadata.perp.exchange/v2/optimism.json'
-const PERP_METADATA_URI = './perp_optimism_metadata.json'
-let PERPV2_METADATA
 
 // Contracts
 const ABIS = {
@@ -25,33 +22,33 @@ const ABIS = {
     }
 }
 
-const coingeckoTickers = {
-	"aave": {"ticker": "aave", "price": 0},
-	"atom": {"ticker": "cosmos", "price": 0},
-	"ape": {"ticker": "apecoin", "price": 0},
-	"avax": {"ticker": "avalanche-2", "price": 0},
-	"bnb": {"ticker": "binancecoin", "price": 0},
-	"btc": {"ticker": "bitcoin", "price": 0},
-	"eth": {"ticker": "ethereum", "price": 0},
-	"flow": {"ticker": "flow", "price": 0},
-	"frax": {"ticker": "frax", "price": 0},
-	"ftm": {"ticker": "fantom", "price": 0},
-	"link": {"ticker": "chainlink", "price": 0},
-	"matic": {"ticker": "matic-network", "price": 0},
-	"mps": {"ticker": "mt-pelerin-shares", "price": 0},
-	"near": {"ticker": "near", "price": 0},
-	"one": {"ticker": "harmony", "price": 0},
-	"op": {"ticker": "optimism", "price": 0},
-	"perp": {"ticker": "perpetual-protocol", "price": 0},
-	"sand": {"ticker": "the-sandbox", "price": 0},
-	"sol": {"ticker": "solana", "price": 0},
-	"usdc": {"ticker": "usd-coin", "price": 0},
-	"usdt": {"ticker": "tether", "price": 0},
-	"weth": {"ticker": "weth", "price": 0},
-	"wmatic": {"ticker": "wmatic", "price": 0},
-	// MANUAL
-	"custom": {"price": 0},
-}
+// const coingeckoTickers = {
+// 	"aave": {"ticker": "aave", "price": 0},
+// 	"atom": {"ticker": "cosmos", "price": 0},
+// 	"ape": {"ticker": "apecoin", "price": 0},
+// 	"avax": {"ticker": "avalanche-2", "price": 0},
+// 	"bnb": {"ticker": "binancecoin", "price": 0},
+// 	"btc": {"ticker": "bitcoin", "price": 0},
+// 	"eth": {"ticker": "ethereum", "price": 0},
+// 	"flow": {"ticker": "flow", "price": 0},
+// 	"frax": {"ticker": "frax", "price": 0},
+// 	"ftm": {"ticker": "fantom", "price": 0},
+// 	"link": {"ticker": "chainlink", "price": 0},
+// 	"matic": {"ticker": "matic-network", "price": 0},
+// 	"mps": {"ticker": "mt-pelerin-shares", "price": 0},
+// 	"near": {"ticker": "near", "price": 0},
+// 	"one": {"ticker": "harmony", "price": 0},
+// 	"op": {"ticker": "optimism", "price": 0},
+// 	"perp": {"ticker": "perpetual-protocol", "price": 0},
+// 	"sand": {"ticker": "the-sandbox", "price": 0},
+// 	"sol": {"ticker": "solana", "price": 0},
+// 	"usdc": {"ticker": "usd-coin", "price": 0},
+// 	"usdt": {"ticker": "tether", "price": 0},
+// 	"weth": {"ticker": "weth", "price": 0},
+// 	"wmatic": {"ticker": "wmatic", "price": 0},
+// 	// MANUAL
+// 	"custom": {"price": 0},
+// }
 
 // ERC20 Contract
 function generateErc20Contract(CONTRACT) {
@@ -62,117 +59,10 @@ function generateErc20Contract(CONTRACT) {
     )
 }
 
-// vToken Contract
-function generateVtokenContract(CONTRACT) {
-    return new ethers.Contract(
-        CONTRACT,
-        ABIS['GENERIC']['VTOKEN'],
-        PROVIDER
-    )
-}
-
-// Perpetuals contracts
-const OPTIMISM_PERP_VAULT_CONTRACT = '0xAD7b4C162707E0B2b5f6fdDbD3f8538A5fbA0d60'
-// const OPTIMISM_PERP_VAULT_PROXY_CONTRACT = '0xD24b8feEeA13A0EcCe247e37E8AD1a0b2620Fc5B'
-const OPTIMISM_PERP_VAULT_PROXY_INTERACTION = new ethers.Contract(
-    OPTIMISM_PERP_VAULT_CONTRACT,
-    ABIS['OPTIMISM']['PERP_VAULT_PROXY'],
-    PROVIDER
-)
-
-const OPTIMISM_PERP_CLEARINGHOUSE_CONTRACT = '0x82ac2CE43e33683c58BE4cDc40975E73aA50f459'
-// const OPTIMISM_PERP_CLEARINGHOUSE_PROXY_CONTRACT = '0x12c884f45062b58e1592d1438542731829790a25'
-const OPTIMISM_PERP_CLEARINGHOUSE_PROXY_INTERACTION = new ethers.Contract(
-    OPTIMISM_PERP_CLEARINGHOUSE_CONTRACT,
-    ABIS['OPTIMISM']['PERP_CLEARINGHOUSE_PROXY'],
-    PROVIDER
-)
-
-const OPTIMISM_PERP_ACCOUNTBALANCE_CONTRACT = '0xA7f3FC32043757039d5e13d790EE43edBcBa8b7c'
-const OPTIMISM_PERP_ACCOUNTBALANCE_PROXY_INTERACTION = new ethers.Contract(
-    OPTIMISM_PERP_ACCOUNTBALANCE_CONTRACT,
-    ABIS['OPTIMISM']['PERP_ACCOUNTBALANCE_PROXY'],
-    PROVIDER
-)
-
-// Lyra contracts
-const ARBITRUM_LYRA_OPTIONMARKET_CONTRACT = '0x919E5e0C096002cb8a21397D724C4e3EbE77bC15'
-const ARBITRUM_LYRA_OPTIONMARKET_INTERACTION = new ethers.Contract(
-    ARBITRUM_LYRA_OPTIONMARKET_CONTRACT,
-    ABIS['ARBITRUM']['LYRA_OPTIONMARKET'],
-    PROVIDER
-)
-
-// Velodrome contracts
-const OPTIMISM_VELODROME_ROUTER_CONTRACT = '0x9c12939390052919aF3155f41Bf4160Fd3666A6f'
-const OPTIMISM_VELODROME_ROUTER_INTERACTION = new ethers.Contract(
-    OPTIMISM_VELODROME_ROUTER_CONTRACT,
-    ABIS['OPTIMISM']['VELODROME_ROUTER'],
-    PROVIDER
-)
-
-// Liquity contracts
-const ETHEREUM_LIQUITY_BORROWERS_OPERATIONS_CONTRACT = '0x24179cd81c9e782a4096035f7ec97fb8b783e007'
-const ETHEREUM_LIQUITY_BORROWERS_OPERATIONS_INTERACTION = new ethers.Contract(
-    ETHEREUM_LIQUITY_BORROWERS_OPERATIONS_CONTRACT,
-    ABIS['ETHEREUM']['LIQUITY_BORROWERS_OPERATIONS'],
-    PROVIDER
-)
-
 // Gearbox contracts
 
 
 // dYdX contracts
-
-
-// Perp Vault tokens
-const OPTIMISM_PERP_VAULT_TOKENS = {
-    'ETH' : {
-        'address' : '0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000',
-        'decimals' : 18,
-    },
-    'FRAX' : {
-        'address' : '0x2E3D870790dC77A83DD1d18184Acc7439A53f475',
-        'decimals' : 18,
-    },
-    'OP' : {
-        'address' : '0x4200000000000000000000000000000000000042',
-        'decimals' : 18,
-    },
-    'USDC' : {
-        'address' : '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
-        'decimals' : 6,
-    },
-    'USDT' : {
-        'address' : '0x94b008aa00579c1307b0ef2c499ad98a8ce58e58',
-        'decimals' : 6,
-    },
-    'WETH' : {
-        'address' : '0x4200000000000000000000000000000000000006',
-        'decimals' : 18,
-    },
-}
-
-const OPTIMISM_PERP_POOL_TOKENS = [
-    'vAAVE',
-    'vATOM',
-    'vAPE',
-    'vAVAX',
-    'vBNB',
-    'vBTC',
-    'vCRV',
-    'vETH',
-    'vFLOW',
-    'vFTM',
-    'vLINK',
-    'vNEAR',
-    'vONE',
-    'vOP',
-    'vPERP',
-    'vSAND',
-    'vSOL',
-    'vMATIC',
-]
 
 // Get balances
 async function getBalanceEther(address) {
@@ -186,195 +76,33 @@ async function getErc20Balance(contractAddress, decimals) {
 
     return ethers.utils.formatUnits(balanceOfWei, decimals)
 }
-async function getOptimismPerpBalance(contractAddress, decimals) {
-    balanceOfWei = await OPTIMISM_PERP_VAULT_PROXY_INTERACTION.getBalanceByToken(
-        $("#selected-account").text(),
-        contractAddress
-    )
 
-    return ethers.utils.formatUnits(balanceOfWei, decimals)
-}
-async function checkAllOptimismPerpBalances() {
-    // Wallet
-    $("#eth-optimism-balance").text(await getBalanceEther($("#selected-account").text()))
-    $("#weth-optimism-balance").text(await getErc20Balance(OPTIMISM_PERP_VAULT_TOKENS['WETH']['address'], OPTIMISM_PERP_VAULT_TOKENS['WETH']['decimals']))
-    $("#usdc-optimism-balance").text(await getErc20Balance(OPTIMISM_PERP_VAULT_TOKENS['USDC']['address'], OPTIMISM_PERP_VAULT_TOKENS['USDC']['decimals']))
+// const getCoingeckoPrice = async () => {
+// 	let tokenIds = []
+// 	for(ticker in coingeckoTickers) {
+// 		tokenIds.push(coingeckoTickers[ticker].ticker)
+// 	}
+// 	const response = await fetch(COINGECKO_URI + tokenIds.join(","))
+// 	const prices = await response.json()
+// 	// Hydrate tickers array to add price
+// 	for (symbol in coingeckoTickers) {
+// 		if (prices[coingeckoTickers[symbol].ticker]) {
+// 			coingeckoTickers[symbol].price = prices[coingeckoTickers[symbol].ticker].usd
+// 		}
+// 	}
 
-    // Perp
-    $("#eth-optimism-perp-balance").text(await getOptimismPerpBalance(OPTIMISM_PERP_VAULT_TOKENS['ETH']['address'], 18))
-    $("#weth-optimism-perp-balance").text(await getOptimismPerpBalance(OPTIMISM_PERP_VAULT_TOKENS['WETH']['address'], OPTIMISM_PERP_VAULT_TOKENS['WETH']['decimals']))
-    $("#usdc-optimism-perp-balance").text(await getOptimismPerpBalance(OPTIMISM_PERP_VAULT_TOKENS['USDC']['address'], OPTIMISM_PERP_VAULT_TOKENS['USDC']['decimals']))
-}
-
-const getCoingeckoPrice = async () => {
-	let tokenIds = []
-	for(ticker in coingeckoTickers) {
-		tokenIds.push(coingeckoTickers[ticker].ticker)
-	}
-	const response = await fetch(COINGECKO_URI + tokenIds.join(","))
-	const prices = await response.json()
-	// Hydrate tickers array to add price
-	for (symbol in coingeckoTickers) {
-		if (prices[coingeckoTickers[symbol].ticker]) {
-			coingeckoTickers[symbol].price = prices[coingeckoTickers[symbol].ticker].usd
-		}
-	}
-
-    console.log('coingeckoTickers::', coingeckoTickers)
-}
+//     console.log('coingeckoTickers::', coingeckoTickers)
+// }
 
 // parse vTokens into getCoingeckoPrice
-async function getCoingeckoPriceFromVtokens(vTokens) {
-    const symbol = vTokens.replace('v', '').toLowerCase()
+// async function getCoingeckoPriceFromVtokens(vTokens) {
+//     const symbol = vTokens.replace('v', '').toLowerCase()
 
-    // DEBUG
-    console.log("symbol::", symbol)
+//     // DEBUG
+//     console.log("symbol::", symbol)
 
-    return Number(coingeckoTickers[symbol].price)
-}
-
-// Hydrate deposit vault
-async function hydrateDepositVault() {
-    const select = document.querySelector('#deposit-collateral-optimism-perp-select');
-
-    for (const token in OPTIMISM_PERP_VAULT_TOKENS) {
-        const option = document.createElement('option');
-        option.value = token;
-        option.text = token;
-        select.appendChild(option);
-    }
-}
-
-// Hydrate withdraw vault
-async function hydrateWithdrawVault() {
-    const select = document.querySelector('#withdraw-collateral-optimism-perp-select');
-
-    for (const token in OPTIMISM_PERP_VAULT_TOKENS) {
-        const option = document.createElement('option');
-        option.value = token;
-        option.text = token;
-        select.appendChild(option);
-    }
-}
-
-// Hydrate open positions
-async function hydrateOpenPositions() {
-    const select = document.querySelector('#open-position-vtoken-optimism-perp-select');
-
-    for (const token in OPTIMISM_PERP_POOL_TOKENS) {
-        const option = document.createElement('option');
-        option.value = OPTIMISM_PERP_POOL_TOKENS[token];
-        option.text = OPTIMISM_PERP_POOL_TOKENS[token];
-        select.appendChild(option);
-    }
-}
-
-// Hydrate close positions
-async function hydrateClosePositions() {
-    const select = document.querySelector('#close-position-vtoken-optimism-perp-select');
-
-    for (const token in OPTIMISM_PERP_POOL_TOKENS) {
-        const option = document.createElement('option');
-        option.value = OPTIMISM_PERP_POOL_TOKENS[token];
-        option.text = OPTIMISM_PERP_POOL_TOKENS[token];
-        select.appendChild(option);
-    }
-}
-
-// Get PerpV2 metadata
-async function getPerpetualMetadata() {
-    const response = await fetch(PERP_METADATA_URI)
-	return await response.json()
-}
-
-// Get Chainlink oracle price feed
-async function getChainlinkOraclePriceFeed(oraclePriceFeedAddress) {
-    const oraclePriceFeedContract = generateVtokenContract(oraclePriceFeedAddress)
-    const price = await oraclePriceFeedContract.getPrice()
-
-    return ethers.utils.formatEther(price)
-}
-
-function addPerpPositionRow(symbol, side, amount) {
-    // Symbol
-    var x = document.createElement("tr")
-    var a = document.createElement("td")
-    var anode = document.createTextNode(symbol)
-    a.appendChild(anode)
-    x.appendChild(a)
-
-    // Side
-    a = document.createElement("td")
-    anode = document.createTextNode(side)
-    a.appendChild(anode)
-    x.appendChild(a)
-
-    // Amount
-    a = document.createElement("td")
-    anode = document.createTextNode(amount)
-    a.appendChild(anode)
-    x.appendChild(a)
-
-    a = document.createElement("td")
-    a.setAttribute('class', 'input-group')
-    anode = document.createElement('input')
-    anode.setAttribute('type', 'number')
-    anode.setAttribute('value', '1')
-    a.appendChild(anode)
-
-    div = document.createElement('div')
-    div.setAttribute('class', 'input-group-append')
-    a.appendChild(div)
-    
-    span = document.createElement('span')
-    span.setAttribute('class', 'input-group-text')
-    span.innerText = '%'
-    div.appendChild(span)
-    
-    x.appendChild(a)
-
-    // col button
-    a = document.createElement("td")
-    anode = document.createElement('button')
-    anode.setAttribute('type', 'button')
-    anode.setAttribute('class', 'btn btn-dark close-prep-optimism-position-button')
-    anode.innerText = 'Close position'
-    a.appendChild(anode)
-    x.appendChild(a)
-
-    document.querySelector("#perp-positions tbody").appendChild(x)
-}
-
-// Hydrate PerpV2 positions
-async function hydratePerpPositions() {
-    console.log("DEBUG:: PerpV2 positions hydrated - In progress")
-    // Clean table
-    document.querySelector("#perp-positions tbody").innerHTML = "";
-
-    for (const vToken in OPTIMISM_PERP_POOL_TOKENS) {
-        const symbol = OPTIMISM_PERP_POOL_TOKENS[vToken]
-        tuppleResponse = await OPTIMISM_PERP_ACCOUNTBALANCE_PROXY_INTERACTION.getAccountInfo(
-            $("#selected-account").text(),
-            PERPV2_METADATA['contracts'][symbol]['address']
-        )
-
-        const amount = ethers.utils.formatEther(tuppleResponse[0])
-
-        if (amount != 0.0) {
-            // Side position
-            let side = "long"
-            if (amount < 0) side = "short"
-
-            addPerpPositionRow(symbol, side, amount)
-
-            // console.log("DEBUG::tuppleResponse", tuppleResponse)
-            // console.log("DEBUG::tuppleResponse[0]", ethers.utils.formatEther(tuppleResponse[0]))
-            // console.log("DEBUG::tuppleResponse[1]", ethers.utils.formatEther(tuppleResponse[1]))
-            // console.log("DEBUG::tuppleResponse[2]", ethers.utils.formatEther(tuppleResponse[2]))
-        }
-    }
-    console.log("DEBUG:: PerpV2 positions hydrated - Finished !")
-}
+//     return Number(coingeckoTickers[symbol].price)
+// }
 
 // function notifyMe() {
 //     // Let's check if the browser supports notifications
@@ -406,429 +134,6 @@ async function hydratePerpPositions() {
 $(document).ready(async function() {
     // Get coingecko tokens price
     //getCoingeckoPrice()
-
-    // Init vTokensList
-    await hydrateDepositVault()
-    await hydrateWithdrawVault()
-    await hydrateOpenPositions()
-    await hydrateClosePositions()
-
-    // Initi PerpV2 metadata
-    PERPV2_METADATA = await getPerpetualMetadata()
-    // console.log("PERPV2_METADATA::", PERPV2_METADATA)
-
-    // Wallet - Optimism - Balances 
-    $("#eth-optimism-balance-button").click(async function() {
-        etherBalance = await getBalanceEther($("#selected-account").text())
-        $("#eth-optimism-balance").text(etherBalance)
-    })
-    $("#weth-optimism-balance-button").click(async function() {
-        const balanceOf = getErc20Balance(OPTIMISM_PERP_VAULT_TOKENS['WETH']['address'], OPTIMISM_PERP_VAULT_TOKENS['WETH']['decimals'])
-        $("#weth-optimism-balance").text(balanceOf)
-    })
-    $("#usdc-optimism-balance-button").click(async function() {
-        const balanceOf = getErc20Balance(OPTIMISM_PERP_VAULT_TOKENS['USDC']['address'], OPTIMISM_PERP_VAULT_TOKENS['USDC']['decimals'])
-        $("#usdc-optimism-balance").text(balanceOf)
-    })
-
-    // PerpV2 - Optimism - Balances
-    $("#eth-optimism-perp-balance-button").click(async function() {
-        const balanceOf = getOptimismPerpBalance(OPTIMISM_PERP_VAULT_TOKENS['ETH']['address'], 18)
-        $("#eth-optimism-perp-balance").text(balanceOf)
-    })
-    $("#weth-optimism-perp-balance-button").click(async function() {
-        const balanceOf = getOptimismPerpBalance(OPTIMISM_PERP_VAULT_TOKENS['WETH']['address'], OPTIMISM_PERP_VAULT_TOKENS['WETH']['decimals'])
-        $("#weth-optimism-perp-balance").text(balanceOf)
-    })
-    $("#usdc-optimism-perp-balance-button").click(async function() {
-        const balanceOf = getOptimismPerpBalance(OPTIMISM_PERP_VAULT_TOKENS['USDC']['address'], OPTIMISM_PERP_VAULT_TOKENS['USDC']['decimals'])
-        $("#usdc-optimism-perp-balance").text(balanceOf)
-    })
-
-    // PerpV2 - Optimism - Check all balances
-    $("#total-optimism-perp-balance-button").click(async function() {
-        await checkAllOptimismPerpBalances()
-    })
-    
-    // PerpV2 - Optimism - Positions
-    $("#optimism-perp-positions-button").click(async function() {
-        await hydratePerpPositions() 
-    })
-
-    // PerpV2 - Optimism - Deposit
-    $("#deposit-optimism-perp-vault-button").click(async function() {
-        // Get option value of select id "deposit-collateral-optimism-perp-select"
-        const collateral = $("#deposit-collateral-optimism-perp-select").val()
-        const amount = $("#deposit-optimism-perp-vault-amount").val()
-        const vaultContract = await OPTIMISM_PERP_VAULT_PROXY_INTERACTION.connect(SIGNER)
-
-        if (collateral === 'ETH') {
-            const tx = await vaultContract.depositEther(
-                {
-                    value: ethers.utils.parseUnits(amount, 18),
-                    gasLimit: 150000
-                }
-            )
-            console.log("tx::", tx)
-        } else {
-            const tx = await vaultContract.deposit(
-                OPTIMISM_PERP_VAULT_TOKENS[collateral]['address'],
-                ethers.utils.parseUnits(amount, OPTIMISM_PERP_VAULT_TOKENS[collateral]['decimals']),
-                {
-                    gasLimit: 200000
-                }
-            )
-            console.log("tx::", tx)
-        }
-    })
-
-    // PerpV2 - Optimism - Withdraw
-    $("#withdraw-optimism-perp-vault-button").click(async function() {
-        const collateral = $("#withdraw-collateral-optimism-perp-select").val()
-        const amount = $("#withdraw-optimism-perp-vault-amount").val()
-        const vaultContract = await OPTIMISM_PERP_VAULT_PROXY_INTERACTION.connect(SIGNER)
-
-        if (collateral === 'ETH') {
-            const tx = await vaultContract.withdrawEther(
-                ethers.utils.parseUnits(amount, 18),
-                {
-                    gasLimit: 400000
-                }
-            )
-            console.log("tx::", tx)
-        } else {
-            const tx = await vaultContract.withdraw(
-                OPTIMISM_PERP_VAULT_TOKENS[collateral]['address'],
-                ethers.utils.parseUnits(amount, OPTIMISM_PERP_VAULT_TOKENS[collateral]['decimals']),
-                {
-                    gasLimit: 1500000
-                }
-            )
-            console.log("tx::", tx)
-        }
-    })
-
-    // PerpV2 - Optimism - Open Position
-    $("#open-position-optimism-perp-clearinghouse-button").click(async function() {
-        const currentDate = new Date();
-        const vtoken = $("#open-position-vtoken-optimism-perp-select").val()
-        const amount = $("#open-position-optimism-perp-clearinghouse-amount").val()
-        const isBaseToQuote = JSON.parse($("#open-position-side-optimism-perp-select").val())
-        const baseToken = PERPV2_METADATA['contracts'][vtoken]['address']
-        const isExactInput = true
-        const oppositeAmountBound = "0"
-        const sqrtPriceLimitX96 = "0"
-        const timestamp = currentDate.getTime();
-        const deadline = timestamp + 300000; // + 5 minutes
-        const referralCode = "0x0000000000000000000000000000000000000000000000000000000000000000"
-        
-        // DEBUG transaction
-        console.log("transaction_debug::",  {
-            "baseToken": baseToken,
-            "isBaseToQuote": isBaseToQuote,
-            "isExactInput": isExactInput,
-            "amount": ethers.utils.parseUnits(amount, 18),
-            "oppositeAmountBound": oppositeAmountBound,
-            "deadline": deadline,
-            "sqrtPriceLimitX96": sqrtPriceLimitX96,
-            "referralCode": referralCode
-        })
-
-        const clearingHouseContract = await OPTIMISM_PERP_CLEARINGHOUSE_PROXY_INTERACTION.connect(SIGNER)
-
-        const tx = await clearingHouseContract.openPosition([
-            baseToken,
-            isBaseToQuote,
-            isExactInput,
-            ethers.utils.parseUnits(amount, 18),
-            oppositeAmountBound,
-            deadline,
-            sqrtPriceLimitX96,
-            referralCode,
-            {
-                gasLimit: 2500000
-            }
-
-            // address baseToken; -> vToken base address
-            // bool isBaseToQuote; -> Short = true / Long = false
-            // bool isExactInput; -> isExactInput can be entered as true or false. ???
-            // uint256 amount; -> 50 * 10^18
-            // uint256 oppositeAmountBound; -> is a restriction on how many tokens to receive or pay, depending on isBaseToQuote and isExactInput. ???
-            // uint256 deadline; -> sets a deadline for executing the transaction. You can use a Unix time converter to enter this parameter, by converting a custom date 15 minutes ahead of the current time to Unix timestamp: https://awebanalysis.com/en/unix-timestamp-converter/ ???
-            // uint160 sqrtPriceLimitX96; -> is a restriction on the ending price after the swap, where sqrtPriceLimitX96 is defined here. For no restriction, you can enter 0. ???
-            // bytes32 referralCode; -> is used to add your referral code (or use 0x0000000000000000000000000000000000000000000000000000000000000000 if you do not have a code to apply). ???
-        ])
-
-        console.log("tx::", tx)
-    })
-
-    // PerpV2 - Optimism - Close Position
-    async function closeOptimismPerpPosition(button) {
-        const row = button.parent().parent()
-        console.log("row::", row)
-        const vToken = row[0].cells[0].textContent
-        const sidePosition = row[0].cells[1].textContent
-        const amount = Number(row[0].cells[2].textContent)
-        const slippage = Number(row[0].cells[3].getElementsByTagName('input')[0].value)
-        const currentDate = new Date()
-        const baseToken = PERPV2_METADATA['contracts'][vToken]['address']
-        let oppositeAmountBound = 0
-        const sqrtPriceLimitX96 = "0"
-        const timestamp = currentDate.getTime();
-        const deadline = timestamp + 300000; // + 5 minutes
-        const referralCode = "0x0000000000000000000000000000000000000000000000000000000000000000"
-
-        const chainlinkOraclePriceFeed = await getChainlinkOraclePriceFeed(PERPV2_METADATA['contracts'][vToken + 'vUSDUniswapV3PriceFeed']['address'])
-        const price = Number(chainlinkOraclePriceFeed)
-        console.log("price::", typeof price, price)
-        console.log("amount::", typeof amount, amount)
-        console.log("slippage::", typeof slippage, slippage)
-
-        if (sidePosition == 'long') {
-            oppositeAmountBound = (price - ((price * slippage) / 100)) * amount
-        } else {
-            oppositeAmountBound = (price + ((price * slippage) / 100)) * amount
-        }
-        console.log("oppositeAmountBound::", typeof oppositeAmountBound, oppositeAmountBound)
-
-        // DEBUG transaction
-        console.log("transaction_debug::", {
-            "baseToken": baseToken,
-            "sqrtPriceLimitX96": sqrtPriceLimitX96,
-            "oppositeAmountBound": oppositeAmountBound,
-            "deadline": deadline,
-            "referralCode": referralCode
-        })
-
-        const clearingHouseContract = await OPTIMISM_PERP_CLEARINGHOUSE_PROXY_INTERACTION.connect(SIGNER)
-
-        const tx = await clearingHouseContract.closePosition([
-            baseToken,
-            sqrtPriceLimitX96,
-            ethers.utils.parseUnits(oppositeAmountBound.toString(), 18),
-            deadline,
-            referralCode,
-            {
-                gasLimit: 1500000
-            }
-
-            // address baseToken; -> vToken base address
-            // uint160 sqrtPriceLimitX96; -> is a restriction on the ending price after the swap, where sqrtPriceLimitX96 is defined here. For no restriction, you can enter 0. ???
-            // uint256 oppositeAmountBound; -> is a restriction on how many tokens to receive or pay, depending on isBaseToQuote and isExactInput. ??? (vUSD VALUE !!???)
-            // uint256 deadline; -> sets a deadline for executing the transaction. You can use a Unix time converter to enter this parameter, by converting a custom date 15 minutes ahead of the current time to Unix timestamp: https://awebanalysis.com/en/unix-timestamp-converter/ ???
-            // bytes32 referralCode; -> is used to add your referral code (or use 0x0000000000000000000000000000000000000000000000000000000000000000 if you do not have a code to apply). ???
-        ])
-
-        console.log("tx::", tx)
-    }
-    // PerpV2 - Optimism - Close position on click
-    $('#perp-positions').on('click', '.close-prep-optimism-position-button', function() {
-        const button = $(this)
-        closeOptimismPerpPosition(button)
-    })
-
-    // Lyra - Arbitrum - Buy ETH CALL
-    $("#open-position-arbitrum-lyra-optionmarket-button").click(async function() {
-        const currentDate = new Date();
-        const vtoken = $("#open-position-vtoken-optimism-perp-select").val()
-        const amount = $("#open-position-optimism-perp-clearinghouse-amount").val()
-        const isBaseToQuote = JSON.parse($("#open-position-side-optimism-perp-select").val())
-        const isExactInput = true
-        const oppositeAmountBound = "0"
-        const sqrtPriceLimitX96 = "0"
-        const timestamp = currentDate.getTime();
-        const deadline = timestamp + 300000; // + 5 minutes
-        const referralCode = "0x0000000000000000000000000000000000000000000000000000000000000000"
-
-        // Debug transaction
-        const transaction_debug = {
-            "baseToken": OPTIMISM_PERP_POOL_TOKENS[vtoken],
-            "isBaseToQuote": isBaseToQuote,
-            "isExactInput": isExactInput,
-            "amount": ethers.utils.parseUnits(amount, 18),
-            "oppositeAmountBound": oppositeAmountBound,
-            "deadline": deadline,
-            "sqrtPriceLimitX96": sqrtPriceLimitX96,
-            "referralCode": referralCode
-        }
-        console.log("transaction_debug::", transaction_debug)
-
-        const optionMarketContract = await ARBITRUM_LYRA_OPTIONMARKET_INTERACTION.openPosition(SIGNER)
-
-        const tx = await optionMarketContract.openPosition([
-            OPTIMISM_PERP_POOL_TOKENS[vtoken],
-            isBaseToQuote,
-            isExactInput,
-            ethers.utils.parseUnits(amount, 18),
-            oppositeAmountBound,
-            deadline,
-            sqrtPriceLimitX96,
-            referralCode,
-            // {
-            //     gasLimit: 1500000
-            // }
-
-            // MethodID : openPosition (0xd6c0bb44)
-            // 0 - params.strikeId : 150 ???
-            // 1 - params.positionId : 0 ???
-            // 2 - params.iterations : 3 ???
-            // 3 - params.optionType : 0 ???
-            // 4 - params.amount : 1000000000000000 (18 dec for 6 USDC dec ???) - 0.001
-            // 5 - params.setCollateralTo : 0 ???
-            // 6 - params.minTotalCost : 0 ???
-            // 7 - params.maxTotalCost : 15350031147489869
-            // 8 - params.referrer : 0x0000000000000000000000000000000000000000
-        ])
-
-        console.log("tx::", tx)
-    })
-
-    // Lyra - Arbitrum - Sell ETH CALL
-    $("#close-position-arbitrum-lyra-optionmarket-button").click(async function() {
-        const currentDate = new Date();
-        const vtoken = $("#open-position-vtoken-optimism-perp-select").val()
-        const amount = $("#open-position-optimism-perp-clearinghouse-amount").val()
-        const isBaseToQuote = JSON.parse($("#open-position-side-optimism-perp-select").val())
-        const isExactInput = true
-        const oppositeAmountBound = "0"
-        const sqrtPriceLimitX96 = "0"
-        const timestamp = currentDate.getTime();
-        const deadline = timestamp + 300000; // + 5 minutes
-        const referralCode = "0x0000000000000000000000000000000000000000000000000000000000000000"
-
-        // Debug transaction
-        const transaction_debug = {
-            "baseToken": OPTIMISM_PERP_POOL_TOKENS[vtoken],
-            "isBaseToQuote": isBaseToQuote,
-            "isExactInput": isExactInput,
-            "amount": ethers.utils.parseUnits(amount, 18),
-            "oppositeAmountBound": oppositeAmountBound,
-            "deadline": deadline,
-            "sqrtPriceLimitX96": sqrtPriceLimitX96,
-            "referralCode": referralCode
-        }
-        console.log("transaction_debug::", transaction_debug)
-
-        const optionMarketContract = await ARBITRUM_LYRA_OPTIONMARKET_INTERACTION.openPosition(SIGNER)
-
-        const tx = await optionMarketContract.closePosition([
-            OPTIMISM_PERP_POOL_TOKENS[vtoken],
-            isBaseToQuote,
-            isExactInput,
-            ethers.utils.parseUnits(amount, 18),
-            oppositeAmountBound,
-            deadline,
-            sqrtPriceLimitX96,
-            referralCode,
-            // {
-            //     gasLimit: 1500000
-            // }
-
-            // 0 - params.strikeId : 150 ???
-            // 1 - params.positionId : 5936 ???
-            // 2 - params.iterations : 3 ???
-            // 3 - params.optionType : 0 ???
-            // 4 - params.amount : 1000000000000000 (18 dec for 6 USDC dec ???) - 0.001
-            // 5 - params.setCollateralTo : 0 ???
-            // 6 - params.minTotalCost : 10200696066132676 ???
-            // 7 - params.maxTotalCost : 115792089237316195423570985008687907853269984665640564039457584007913129639935
-            // 8 - params.referrer : 0x0000000000000000000000000000000000000000
-        ])
-
-        console.log("tx::", tx)
-    })
-
-    // Lyra - Arbitrum - Check balances
-    $("#check-balances-arbitrum-lyra-button").click(async function() {
-        // balanceOfWei = await OPTIMISM_PERP_VAULT_INTERACTION.getBalanceByToken(
-        balanceOfWei = await ARBITRUM_LYRA_OPTIONMARKET_INTERACTION.getBalanceByToken(
-            // TODO : FIX IT
-            // $("#selected-account").text(),
-            "0x54240c950ff793a4eb5895a56f859216cb1c3f0d",
-            // TODO : FIX IT
-            // OPTIMISM_PERP_VAULT_TOKENS['USDC']['address']
-            "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
-        )
-
-        console.log(balanceOfWei)
-
-        balanceOf = ethers.utils.formatUnits(balanceOfWei, 18)
-        $("#usdc-optimism-perp-balance").text(balanceOf)
-    })
-
-    // Liquity - Ethereum - Open trove
-    $("#open-trove-ethereum-liquity-button").click(async function() {
-        openTrove = await ETHEREUM_LIQUITY_BORROWERS_OPERATIONS_INTERACTION.openTrove(
-            
-            // payableAmount (ether)
-            // _maxFeePercentage (uint256)
-            // _maxFeePercentage (uint256)
-            // _LUSDAmount (uint256)
-            // _LUSDAmount (uint256)
-            // _upperHint (address)
-            // _upperHint (address)
-            // _lowerHint (address)
-            // _lowerHint (address)
-        )
-    })
-
-    // Liquity - Ethereum - Close trove
-    $("#close-trove-ethereum-liquity-button").click(async function() {
-        closeTrove = await ETHEREUM_LIQUITY_BORROWERS_OPERATIONS_INTERACTION.closeTrove()
-    })
-
-    // Liquity - Ethereum - Repay LUSD
-    $("#repay-lusd-ethereum-liquity-button").click(async function() {
-        repayLUSD = await ETHEREUM_LIQUITY_BORROWERS_OPERATIONS_INTERACTION.repayLUSD(
-
-            // _LUSDAmount (uint256)
-            // _LUSDAmount (uint256)
-            // _upperHint (address)
-            // _upperHint (address)
-            // _lowerHint (address)
-            // _lowerHint (address)
-        )
-    })
-
-    // Liquity - Ethereum - Withdraw LUSD
-    $("#withdraw-lusd-ethereum-liquity-button").click(async function() {
-        withdrawLUSD = await ETHEREUM_LIQUITY_BORROWERS_OPERATIONS_INTERACTION.withdrawLUSD(
-
-            // _maxFeePercentage (uint256)
-            // _maxFeePercentage (uint256)
-            // _LUSDAmount (uint256)
-            // _LUSDAmount (uint256)
-            // _upperHint (address)
-            // _upperHint (address)
-            // _lowerHint (address)
-            // _lowerHint (address)
-        )
-    })
-
-    // Liquity - Ethereum - Add collateral
-    $("#add-eth-ethereum-liquity-button").click(async function() {
-        addETH = await ETHEREUM_LIQUITY_BORROWERS_OPERATIONS_INTERACTION.addColl(
-            
-            // payableAmount (ether)
-            // _upperHint (address)
-            // _upperHint (address)
-            // _lowerHint (address)
-            // _lowerHint (address)
-        )
-    })
-
-    // Liquity - Ethereum - Withdraw collateral
-    $("#withdraw-eth-ethereum-liquity-button").click(async function() {
-        withdrawETH = await ETHEREUM_LIQUITY_BORROWERS_OPERATIONS_INTERACTION.withdrawColl(
-
-            // _collWithdrawal (uint256)
-            // _collWithdrawal (uint256)
-            // _upperHint (address)
-            // _upperHint (address)
-            // _lowerHint (address)
-            // _lowerHint (address)
-        )
-    })
 
     // // Borrow ETH Goerli
     // $("#eth-goerli-borrow-button").click(async function() {

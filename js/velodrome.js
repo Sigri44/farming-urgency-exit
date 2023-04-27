@@ -1,3 +1,11 @@
+// Velodrome contracts
+const OPTIMISM_VELODROME_ROUTER_CONTRACT = '0x9c12939390052919aF3155f41Bf4160Fd3666A6f'
+const OPTIMISM_VELODROME_ROUTER_INTERACTION = new ethers.Contract(
+    OPTIMISM_VELODROME_ROUTER_CONTRACT,
+    ABIS['OPTIMISM']['VELODROME_ROUTER'],
+    PROVIDER
+)
+
 $(document).ready(async function() {
     console.log("DEBUG::Velodrome loaded.")
 
@@ -65,6 +73,11 @@ $(document).ready(async function() {
         const button = $(this)
         closeOptimismPerpPosition(button)
     })
+
+    // deposit (Gauge1) : https://optimistic.etherscan.io/tx/0x858cc79b2d6718be07648f972ec6f13a007f3ec0c73e5723fad4b8ca7fd5ad51
+    // withdraw (Gauge2) : https://optimistic.etherscan.io/tx/0xd12a48e2955b9cd5f639f11dd274058e057c28d55ca3856ef13cabe192e7d9c8
+    // addLiquidity (router) : https://optimistic.etherscan.io/tx/0x25b18e5022bd2ad6d0cdc3054b4dc01be6cf6b1f01a3d2d10478e97245f11e57
+    // removeLiquidity (router) : https://optimistic.etherscan.io/tx/0x845f74d58cf44e99367de28d8059a3b6a4c8b6bfb83ff769a6c012d261ea0f04
 
     // Velodrome - Optimism - 
     $("#add-liquidity-optimism-velodrome-button").click(async function() {
