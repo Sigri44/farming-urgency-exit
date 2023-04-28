@@ -62,8 +62,25 @@ const OPTIMISM_VELODROME_TOKENS = {
     },
 }
 
+// Hydrate liquidity tokens
+async function hydrateLiquidityTokens() {
+    const selectTokenA = document.querySelector('#tokena-optimism-velodrome-select')
+    const selectTokenB = document.querySelector('#tokenb-optimism-velodrome-select')
+
+    for (const token in OPTIMISM_VELODROME_TOKENS) {
+        const option = document.createElement('option')
+        option.value = token
+        option.text = token
+        selectTokenA.appendChild(option)
+        selectTokenB.appendChild(option)
+    }
+}
+
 $(document).ready(async function() {
     console.log("DEBUG::Velodrome loaded.")
+
+    // Init vTokensList
+    await hydrateLiquidityTokens()
 
     // PerpV2 - Optimism - Close Position
     async function closeOptimismPerpPosition(button) {
@@ -137,11 +154,14 @@ $(document).ready(async function() {
 
     // Velodrome - Optimism - 
     $("#add-liquidity-optimism-velodrome-button").click(async function() {
+        // DEBUG : Price
+        const fakePrice = 0.70
+
         const currentDate = new Date()
         const timestamp = currentDate.getTime()
         const deadline = timestamp + 300000 // + 5 minutes
-        const tokenA = (address)
-        const tokenB = (address)
+        const tokenA = $("tokena-optimism-velodrome-select").val()
+        const tokenB = $("tokenb-optimism-velodrome-select").val()
         const liquidity = $("withdraw-optimism-velodrome-vault-amount").val() // amount of LP tokens
         const isStable = $("type-optimism-velodrome-select").val()
         const amountAMin = (uint256) // slippage
@@ -152,7 +172,7 @@ $(document).ready(async function() {
             tokenA,
             tokenB,
             liquidity,
-            stable,
+            isStable,
             amountAMin,
             amountBMin,
             to,
