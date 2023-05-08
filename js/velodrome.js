@@ -181,8 +181,9 @@ $(document).ready(async function() {
     // Allowance remove liquidity
     $("#allowance-remove-liquidity-optimism-velodrome-button").click(async function() {
         const contractName = $("#gauge-liquidity-optimism-velodrome-select").val()
-        const contractGaugeLP = generateLpContract('pairAddress', contractName)
-        const allowanceLP = await contractGaugeLP.approve({
+        const contractGaugeLP = await generateLpContract('pairAddress', contractName)
+        const contractSigned = await contractGaugeLP.connect(SIGNER)
+        const allowanceLP = await contractSigned.approve({
             OPTIMISM_VELODROME_ROUTER_CONTRACT,
             ALLOWANCE_INFINITE
         })
@@ -199,17 +200,19 @@ $(document).ready(async function() {
         const currentDate = new Date()
         const timestamp = currentDate.getTime()
         const deadline = timestamp + 300000 // + 5 minutes
-        const gauge = $("gauge-liquidity-optimism-velodrome-select").val()
+        const gauge = $("#gauge-liquidity-optimism-velodrome-select").val()
         const tokenA = OPTIMISM_VELODROME_GAUGE[gauge]['tokensPair']['tokenA']
         const tokenB = OPTIMISM_VELODROME_GAUGE[gauge]['tokensPair']['tokenB']
+        const quantityTokenA = $("#quantity-token-a-optimism-velodrome-select").val()
+        const quantityTokenB = $("#quantity-token-b-optimism-velodrome-select").val()
         const fakeLiquidity = 0.128
         // const liquidity = $("withdraw-optimism-velodromevelodrome-vault-amount").val() // amount of LP tokens
         const liquidity = fakeLiquidity
         // const slippage = Number(row[0].cells[3].getElementsByTagName('input')[0].value)
         const slippage = Number(1)
         const isStable = OPTIMISM_VELODROME_GAUGE[gauge]['isStable']
-        const amountAMin = (price - ((price * slippage) / 100)) * amount // slippage
-        const amountBMin = (price - ((price * slippage) / 100)) * amount // slippage
+        const amountAMin = (price - ((price * slippage) / 100)) * quantityTokenA // slippage
+        const amountBMin = (price - ((price * slippage) / 100)) * quantityTokenB // slippage
         const to = $("#selected-account").text()
         
          // DEBUG transaction
@@ -224,7 +227,9 @@ $(document).ready(async function() {
             "deadline": deadline
         })
 
-        const removeLiquidity = await OPTIMISM_VELODROME_ROUTER_INTERACTION.removeLiquidity({
+        const routerContract = await OPTIMISM_VELODROME_ROUTER_INTERACTION.connect(SIGNER)
+
+        const removeLiquidity = await routerContract.removeLiquidity({
             tokenA,
             tokenB,
             liquidity,
