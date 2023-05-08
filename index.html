@@ -380,9 +380,9 @@
 
             <!-- Remove Liquidity -->
             <div class="container border-bottom">
-                <form class="row g-3">
+                <div class="row g-3">
                     <div class="col">
-                        <h3>Liquidity :</h3>
+                        <h3>Remove liquidity :</h3>
                     </div>
 
                     <div class="row">
@@ -393,34 +393,40 @@
                             </select>
                         </div>
 
+                        <div class="col">
+                            <button type="button" class="btn btn-dark" id="check-lp-quantity-optimism-velodrome-button">Check LP quantity</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col input-group mb-3">
-                            <input type="number" id="withdraw-optimism-velodrome-vault-amount" placeholder="Withdraw LP amount" required />
+                            <input type="number" id="quantity-withdraw-optimism-velodrome" placeholder="Withdraw LP qty" />
                         </div>
 
                         <div class="col input-group mb-3">
-                            <input type="number" id="quantity-token-a-optimism-velodrome-select" placeholder="Min qty for token A" required />
+                            <input type="number" id="quantity-token-a-optimism-velodrome-select" placeholder="Min qty for token A" />
                         </div>
 
                         <div class="col input-group mb-3">
-                            <input type="number" id="quantity-token-b-optimism-velodrome-select" placeholder="Min qty for token A" required />
+                            <input type="number" id="quantity-token-b-optimism-velodrome-select" placeholder="Min qty for token A" />
                         </div>
 
-                        <div class="col input-group mb-3">
-                            <input type="number" id="slippage-optimism-velodrome-vault-amount" placeholder="Slippage" required />
+                        <!-- <div class="col input-group mb-3">
+                            <input type="number" id="slippage-optimism-velodrome-amount" placeholder="Slippage" />
                             <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                             </div>
-                        </div>
+                        </div> -->
                         
                         <div class="col">
-                            <button type="button" class="btn btn-dark" id="allowance-remove-liquidity-optimism-velodrome-button">Allowance remove liquidity</button>
+                            <button type="button" class="btn btn-dark" id="allowance-remove-liquidity-optimism-velodrome-button">Allowance infinit remove liquidity</button>
                         </div>
                         
                         <div class="col">
                             <button type="submit" class="btn btn-dark" id="remove-liquidity-optimism-velodrome-button">Remove all liquidity</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
 

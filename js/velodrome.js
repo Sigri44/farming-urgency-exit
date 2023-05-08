@@ -66,37 +66,61 @@ const OPTIMISM_VELODROME_GAUGE = {
     'sAMM-LUSD/DAI': {
         'gaugeAddress': '0x8b1ad293f4C1D4f66643D779637C72EAEfbb37DA',
         'pairAddress': '0xf12ba676f9045bd76f8280bf249cbe8d209276e2',
-        'isStable': true,
+        'isStable': 1,
         'tokensPair': {
-            'tokenA': '0xc40F949F8a4e094D1b49a23ea9241D289B7b2819', // LUSD
-            'tokenB': '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1' // DAI
+            'tokenA': {
+                'address': '0xc40F949F8a4e094D1b49a23ea9241D289B7b2819', // LUSD
+                'decimals': 18
+            },
+            'tokenB': {
+                'address': '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1', // DAI
+                'decimals': 18
+            }
         }
     },
     'sAMM-USDC/LUSD' : {
         'gaugeAddress': '0x631dCe3a422e1af1AD9d3952B06f9320e2f2ed72',
         'pairAddress': '0x207addb05c548f262219f6bfc6e11c02d0f7fdbe',
-        'isStable': true,
+        'isStable': 1,
         'tokensPair': {
-            'tokenA': '0x7F5c764cBc14f9669B88837ca1490cCa17c31607', // USDC
-            'tokenB': '0xc40F949F8a4e094D1b49a23ea9241D289B7b2819' // LUSD
+            'tokenA': {
+                'address': '0x7F5c764cBc14f9669B88837ca1490cCa17c31607', // USDC
+                'decimals': 6
+            },
+            'tokenB': {
+                'address': '0xc40F949F8a4e094D1b49a23ea9241D289B7b2819', // LUSD
+                'decimals': 18
+            }
         }
     },
     'vAMM-wstETH/WETH': {
         'gaugeAddress': '0x150dc0e12d473347becd0f7352e9dae6cd30d8ab',
         'pairAddress': '0xc6C1E8399C1c33a3f1959f2f77349D74a373345c',
-        'isStable': false,
+        'isStable': 0,
         'tokensPair': {
-            'tokenA': '0x1F32b1c2345538c0c6f582fCB022739c4A194Ebb', // wstETH
-            'tokenB': '0x4200000000000000000000000000000000000006' // WETH
+            'tokenA': {
+                'address': '0x1F32b1c2345538c0c6f582fCB022739c4A194Ebb', // wstETH
+                'decimals': 18
+            },
+            'tokenB': {
+                'address': '0x4200000000000000000000000000000000000006', // WETH
+                'decimals': 18
+            }
         }
     },
     'vAMM-WETH/rETH': {
         'gaugeAddress': '0x89c1a33011fab92e497963a6fa069aee5c1f5d44',
         'pairAddress': '0x985612ff2c9409174fedcff23d4f4761af124f88',
-        'isStable': false,
+        'isStable': 0,
         'tokensPair': {
-            'tokenA': '0x4200000000000000000000000000000000000006', // WETH
-            'tokenB': '0x9Bcef72be871e61ED4fBbc7630889beE758eb81D' // rETH
+            'tokenA': {
+                'address': '0x4200000000000000000000000000000000000006', // WETH
+                'decimals': 18
+            },
+            'tokenB': {
+                'address': '0x9Bcef72be871e61ED4fBbc7630889beE758eb81D', // rETH
+                'decimals': 18
+            }
         }
     },
 }
@@ -171,24 +195,43 @@ $(document).ready(async function() {
     // Withdraw (Unstake)
     $("#withdraw-optimism-velodrome-button").click(async function() {
         const contractName = $("#gauge-optimism-velodrome-select").val()
-        const OPTIMISM_VELODROME_GAUGE_INTERACTION = await generateLpContract('gaugeAddress', contractName)
+        const contractGaugeLP = await generateLpContract('gaugeAddress', contractName)
+        const OPTIMISM_VELODROME_GAUGE_INTERACTION = await contractGaugeLP.connect(SIGNER)
+
         console.log('OPTIMISM_VELODROME_GAUGE_INTERACTION::', typeof OPTIMISM_VELODROME_GAUGE_INTERACTION, OPTIMISM_VELODROME_GAUGE_INTERACTION)
         const withdrawLP = await OPTIMISM_VELODROME_GAUGE_INTERACTION.withdrawAll()
 
         console.log("withdrawLP::", withdrawLP)
     })
 
+    // Check LP Quantity
+    $("#check-lp-quantity-optimism-velodrome-button").click(async function() {
+        const WALLET_ADDRESS = $("#selected-account").text()
+        const contractName = $("#gauge-liquidity-optimism-velodrome-select").val()
+
+        const OPTIMISM_VELODROME_GAUGE_INTERACTION = await generateLpContract('gaugeAddress', contractName)
+        const getLpLiquidity = await OPTIMISM_VELODROME_GAUGE_INTERACTION.balanceOf(
+            WALLET_ADDRESS
+        )
+
+        const getLpLiquidityFormatted = Number(ethers.utils.formatEther(getLpLiquidity))
+
+        $("#quantity-withdraw-optimism-velodrome").val(getLpLiquidityFormatted)
+    })
+
     // Allowance remove liquidity
     $("#allowance-remove-liquidity-optimism-velodrome-button").click(async function() {
         const contractName = $("#gauge-liquidity-optimism-velodrome-select").val()
         const contractGaugeLP = await generateLpContract('pairAddress', contractName)
-        const contractSigned = await contractGaugeLP.connect(SIGNER)
-        const allowanceLP = await contractSigned.approve({
+        const OPTIMISM_VELODROME_GAUGE_INTERACTION = await contractGaugeLP.connect(SIGNER)
+        console.log('OPTIMISM_VELODROME_GAUGE_INTERACTION::', typeof OPTIMISM_VELODROME_GAUGE_INTERACTION, OPTIMISM_VELODROME_GAUGE_INTERACTION)
+
+        const allowanceLP = await OPTIMISM_VELODROME_GAUGE_INTERACTION.approve(
             OPTIMISM_VELODROME_ROUTER_CONTRACT,
             ALLOWANCE_INFINITE
-        })
+        )
 
-        console.log("allowanceLP::", allowanceLP)
+        // console.log("allowanceLP::", allowanceLP)
     })
 
     // Velodrome - Optimism - 
@@ -198,23 +241,29 @@ $(document).ready(async function() {
         const price = fakePrice
 
         const currentDate = new Date()
-        const timestamp = currentDate.getTime()
-        const deadline = timestamp + 300000 // + 5 minutes
+        const timestamp = currentDate.getTime() / 1000 + 300 // convert ms to s & + 5 minutes
+        const deadline = parseInt(timestamp.toString())
         const gauge = $("#gauge-liquidity-optimism-velodrome-select").val()
-        const tokenA = OPTIMISM_VELODROME_GAUGE[gauge]['tokensPair']['tokenA']
-        const tokenB = OPTIMISM_VELODROME_GAUGE[gauge]['tokensPair']['tokenB']
+        const tokenA = OPTIMISM_VELODROME_GAUGE[gauge]['tokensPair']['tokenA']['address']
+        const tokenB = OPTIMISM_VELODROME_GAUGE[gauge]['tokensPair']['tokenB']['address']
+        const decimalsA = OPTIMISM_VELODROME_GAUGE[gauge]['tokensPair']['tokenA']['decimals']
+        const decimalsB = OPTIMISM_VELODROME_GAUGE[gauge]['tokensPair']['tokenB']['decimals']
         const quantityTokenA = $("#quantity-token-a-optimism-velodrome-select").val()
         const quantityTokenB = $("#quantity-token-b-optimism-velodrome-select").val()
-        const fakeLiquidity = 0.128
-        // const liquidity = $("withdraw-optimism-velodromevelodrome-vault-amount").val() // amount of LP tokens
-        const liquidity = fakeLiquidity
+        const liquidity = $("#quantity-withdraw-optimism-velodrome").val() // amount of LP tokens
         // const slippage = Number(row[0].cells[3].getElementsByTagName('input')[0].value)
-        const slippage = Number(1)
+        // const slippage = Number(1)
         const isStable = OPTIMISM_VELODROME_GAUGE[gauge]['isStable']
-        const amountAMin = (price - ((price * slippage) / 100)) * quantityTokenA // slippage
-        const amountBMin = (price - ((price * slippage) / 100)) * quantityTokenB // slippage
+        // const amountAMin = (price - ((price * slippage) / 100)) * quantityTokenA
+        const amountAMin = ethers.utils.parseUnits(quantityTokenA, decimalsA)
+        // const amountBMin = (price - ((price * slippage) / 100)) * quantityTokenB
+        const amountBMin = ethers.utils.parseUnits(quantityTokenB, decimalsB)
         const to = $("#selected-account").text()
-        
+
+        console.log("liquidity::", typeof liquidity, liquidity)
+        console.log("ethers.utils.parseUnits(liquidity, 18)::", typeof ethers.utils.parseUnits(liquidity, 18), ethers.utils.parseUnits(liquidity, 18))
+        // console.log("ethers.BigNumber.from(liquidity)::", typeof ethers.BigNumber.from(liquidity), ethers.BigNumber.from(liquidity))
+
          // DEBUG transaction
          console.log("transaction_debug::", {
             "tokenA": tokenA,
@@ -229,16 +278,16 @@ $(document).ready(async function() {
 
         const routerContract = await OPTIMISM_VELODROME_ROUTER_INTERACTION.connect(SIGNER)
 
-        const removeLiquidity = await routerContract.removeLiquidity({
+        const removeLiquidity = await routerContract.removeLiquidity(
             tokenA,
             tokenB,
-            liquidity,
-            isStable,
+            ethers.BigNumber.from(isStable),
+            ethers.utils.parseUnits(liquidity, 18),
             amountAMin,
             amountBMin,
             to,
             deadline,
-        })
+        )
 
         console.log("removeLiquidity::", removeLiquidity)
     })
