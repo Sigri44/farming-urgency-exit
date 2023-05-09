@@ -138,70 +138,76 @@ async function generateLpContract(type, contractName) {
 
 // Hydrate gauge LP
 async function hydrateGaugeTokens() {
-    const selectGauge = document.querySelector('#gauge-optimism-velodrome-select')
     const selectGaugeLiquidity = document.querySelector('#gauge-liquidity-optimism-velodrome-select')
 
     for (const token in OPTIMISM_VELODROME_GAUGE) {
         const option = document.createElement('option')
         option.value = token
         option.text = token
-        selectGauge.appendChild(option)
-        // selectGaugeLiquidity.appendChild(option)
-    }
-
-    for (const token in OPTIMISM_VELODROME_GAUGE) {
-        const option = document.createElement('option')
-        option.value = token
-        option.text = token
-        // selectGauge.appendChild(option)
         selectGaugeLiquidity.appendChild(option)
     }
 }
 
-// Hydrate liquidity tokens
-async function hydrateLiquidityTokens() {
-    const selectTokenA = document.querySelector('#tokena-optimism-velodrome-select')
-    const selectTokenB = document.querySelector('#tokenb-optimism-velodrome-select')
+// Hydrate balances
+async function hydrateBalances() {
+    console.log("DEBUG:: Velodrome balances hydrated - In progress")
+    // Clean table
+    document.querySelector("#velodrome-balances tbody").innerHTML = "";
 
-    for (const token in OPTIMISM_VELODROME_TOKENS) {
-        const option = document.createElement('option')
-        option.value = token
-        option.text = token
-        selectTokenA.appendChild(option)
-        // selectTokenB.appendChild(option)
+    for (const pair in OPTIMISM_VELODROME_GAUGE) {
+        const contractGauge = OPTIMISM_VELODROME_GAUGE[pair]['gaugeAddress']
+        const contractPair = OPTIMISM_VELODROME_GAUGE[pair]['pairAddress']
+        const stakedBalance = await getErc20Balance(contractGauge, 18)
+        const unstakedBalance =  await getErc20Balance(contractPair, 18)
+
+        if (stakedBalance != 0.0 ||unstakedBalance != 0.0) {
+            addVelodromeBalanceRow(pair, stakedBalance, unstakedBalance)
+        }
     }
+    console.log("DEBUG:: Velodrome balances hydrated - Finished !")
+}
+
+function addVelodromeBalanceRow(pair, stakedBalance, unstakedBalance) {
+    // Pair
+    var x = document.createElement("tr")
+    var a = document.createElement("td")
+    var anode = document.createTextNode(pair)
+    a.appendChild(anode)
+    x.appendChild(a)
+
+    // Staked balances
+    a = document.createElement("td")
+    anode = document.createTextNode(stakedBalance)
+    a.appendChild(anode)
+    x.appendChild(a)
+
+    // Unstaked balances
+    a = document.createElement("td")
+    anode = document.createTextNode(unstakedBalance)
+    a.appendChild(anode)
+    x.appendChild(a)
     
-    for (const token in OPTIMISM_VELODROME_TOKENS) {
-        const option = document.createElement('option')
-        option.value = token
-        option.text = token
-        // selectTokenA.appendChild(option)
-        selectTokenB.appendChild(option)
-    }
+    // col button
+    a = document.createElement("td")
+    anode = document.createElement('button')
+    anode.setAttribute('type', 'button')
+    anode.setAttribute('class', 'btn btn-dark withdraw-optimism-velodrome-button')
+    anode.innerText = 'Withdraw / Unstake all'
+    a.appendChild(anode)
+    x.appendChild(a)
+
+    document.querySelector("#velodrome-balances tbody").appendChild(x)
 }
 
 $(document).ready(async function() {
     console.log("DEBUG::Velodrome loaded.")
 
     // Init vTokensList
-    // await hydrateLiquidityTokens()
     await hydrateGaugeTokens()
 
-    // deposit (Gauge1) : https://optimistic.etherscan.io/tx/0x858cc79b2d6718be07648f972ec6f13a007f3ec0c73e5723fad4b8ca7fd5ad51
-    // withdraw (Gauge2) : https://optimistic.etherscan.io/tx/0xd12a48e2955b9cd5f639f11dd274058e057c28d55ca3856ef13cabe192e7d9c8
-    // addLiquidity (router) : https://optimistic.etherscan.io/tx/0x25b18e5022bd2ad6d0cdc3054b4dc01be6cf6b1f01a3d2d10478e97245f11e57
-    // removeLiquidity (router) : https://optimistic.etherscan.io/tx/0x845f74d58cf44e99367de28d8059a3b6a4c8b6bfb83ff769a6c012d261ea0f04
-
-    // Withdraw (Unstake)
-    $("#withdraw-optimism-velodrome-button").click(async function() {
-        const contractName = $("#gauge-optimism-velodrome-select").val()
-        const contractGaugeLP = await generateLpContract('gaugeAddress', contractName)
-        const OPTIMISM_VELODROME_GAUGE_INTERACTION = await contractGaugeLP.connect(SIGNER)
-
-        console.log('OPTIMISM_VELODROME_GAUGE_INTERACTION::', typeof OPTIMISM_VELODROME_GAUGE_INTERACTION, OPTIMISM_VELODROME_GAUGE_INTERACTION)
-        const withdrawLP = await OPTIMISM_VELODROME_GAUGE_INTERACTION.withdrawAll()
-
-        console.log("withdrawLP::", withdrawLP)
+    // Check all balances
+    $("#check-balances-optimism-velodrome-button").click(async function() {
+        await hydrateBalances() 
     })
 
     // Check LP Quantity
@@ -209,7 +215,7 @@ $(document).ready(async function() {
         const WALLET_ADDRESS = $("#selected-account").text()
         const contractName = $("#gauge-liquidity-optimism-velodrome-select").val()
 
-        const OPTIMISM_VELODROME_GAUGE_INTERACTION = await generateLpContract('gaugeAddress', contractName)
+        const OPTIMISM_VELODROME_GAUGE_INTERACTION = await generateLpContract('pairAddress', contractName)
         const getLpLiquidity = await OPTIMISM_VELODROME_GAUGE_INTERACTION.balanceOf(
             WALLET_ADDRESS
         )
@@ -236,10 +242,6 @@ $(document).ready(async function() {
 
     // Velodrome - Optimism - 
     $("#remove-liquidity-optimism-velodrome-button").click(async function() {
-        // DEBUG : FAKE Price
-        const fakePrice = 0.70
-        const price = fakePrice
-
         const currentDate = new Date()
         const timestamp = currentDate.getTime() / 1000 + 300 // convert ms to s & + 5 minutes
         const deadline = parseInt(timestamp.toString())
@@ -251,8 +253,6 @@ $(document).ready(async function() {
         const quantityTokenA = $("#quantity-token-a-optimism-velodrome-select").val()
         const quantityTokenB = $("#quantity-token-b-optimism-velodrome-select").val()
         const liquidity = $("#quantity-withdraw-optimism-velodrome").val() // amount of LP tokens
-        // const slippage = Number(row[0].cells[3].getElementsByTagName('input')[0].value)
-        // const slippage = Number(1)
         const isStable = OPTIMISM_VELODROME_GAUGE[gauge]['isStable']
         // const amountAMin = (price - ((price * slippage) / 100)) * quantityTokenA
         const amountAMin = ethers.utils.parseUnits(quantityTokenA, decimalsA)
@@ -260,12 +260,8 @@ $(document).ready(async function() {
         const amountBMin = ethers.utils.parseUnits(quantityTokenB, decimalsB)
         const to = $("#selected-account").text()
 
-        console.log("liquidity::", typeof liquidity, liquidity)
-        console.log("ethers.utils.parseUnits(liquidity, 18)::", typeof ethers.utils.parseUnits(liquidity, 18), ethers.utils.parseUnits(liquidity, 18))
-        // console.log("ethers.BigNumber.from(liquidity)::", typeof ethers.BigNumber.from(liquidity), ethers.BigNumber.from(liquidity))
-
-         // DEBUG transaction
-         console.log("transaction_debug::", {
+        // DEBUG transaction
+        console.log("transaction_debug::", {
             "tokenA": tokenA,
             "tokenB": tokenB,
             "liquidity": liquidity,
@@ -292,6 +288,22 @@ $(document).ready(async function() {
         console.log("removeLiquidity::", removeLiquidity)
     })
 
-    // Swap
+    // Velodrome - Optimism - Withdraw LP
+    async function withdrawOptimismVelodromeLp(button) {
+        const row = button.parent().parent()
+        console.log("row::", row)
+        const contractName = row[0].cells[0].textContent
+        const contractGaugeLP = await generateLpContract('gaugeAddress', contractName)
+        const OPTIMISM_VELODROME_GAUGE_INTERACTION = await contractGaugeLP.connect(SIGNER)
 
+        console.log('OPTIMISM_VELODROME_GAUGE_INTERACTION::', typeof OPTIMISM_VELODROME_GAUGE_INTERACTION, OPTIMISM_VELODROME_GAUGE_INTERACTION)
+        const withdrawLP = await OPTIMISM_VELODROME_GAUGE_INTERACTION.withdrawAll()
+
+        console.log("withdrawLP::", withdrawLP)
+    }
+    // Velodrome - Optimism - Close position on click
+    $('#velodrome-balances').on('click', '.withdraw-optimism-velodrome-button', function() {
+        const button = $(this)
+        withdrawOptimismVelodromeLp(button)
+    })
 })

@@ -182,13 +182,13 @@
                 <div class="row">
                     <table id="perp-positions" class="table">
                         <thead>
-                          <tr>
-                            <th scope="col">vToken</th>
-                            <th scope="col">Side</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Slippage</th>
-                            <th scope="col">Close</th>
-                          </tr>
+                            <tr>
+                                <th scope="col">vToken</th>
+                                <th scope="col">Side</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Slippage</th>
+                                <th scope="col">Close</th>
+                            </tr>
                         </thead>
                         <tbody>
                         </tbody>
@@ -358,24 +358,98 @@
         <!-- Velodrome -->
         <div class="tab-pane fade" id="optimism-velodrome" role="tabpanel" aria-labelledby="optimism-velodrome-tab">
             <h2>Velodrome</h2>
-            <!-- Unstake / Withdraw-->
+            <!-- Check balances -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
-                        <h3>Withdraw (Unstake) :</h3>
-                    </div>
-
-                    <div class="col">
-                        <label for="gauge-optimism-velodrome-select">Choose gauge :</label>
-                        <select id="gauge-optimism-velodrome-select">
-                            <option value="">--Choose gauge--</option>
-                        </select>
-                    </div>
-
-                    <div class="col">
-                        <button type="button" class="btn btn-dark" id="withdraw-optimism-velodrome-button">Withdraw all</button>
+                        <h3>Check balances :</h3>
                     </div>
                 </div>
+            </div>
+
+            <!-- Positions -->
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col">
+                        <h3>Positions :</h3>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <table id="velodrome-balances" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Pair</th>
+                                <th scope="col">Staked amount</th>
+                                <th scope="col">Unstaked amount</th>
+                                <th scope="col">Unstake all</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+    
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="check-balances-optimism-velodrome-button">Check all balances</button>
+                    </div>
+                </div>
+
+                <!-- <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                Staked LUSD/DAI : <span id="staked-lusd-dai-optimism-velodrome-balance">0</span>
+                            </div>
+                            <div class="col">
+                                Unstaked LUSD/DAI : <span id="unstaked-lusd-dai-optimism-velodrome-balance">0</span>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-dark" id="withdraw-stake-optimism-velodrome-button">Withdraw all</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                Staked USDC/LUSD : <span id="staked-usdc-lusd-optimism-velodrome-balance">0</span>
+                            </div>
+                            <div class="col">
+                                Unstaked USDC/LUSD : <span id="unstaked-usdc-lusd-optimism-velodrome-balance">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                Staked wstETH/WETH : <span id="staked-wsteth-weth-optimism-velodrome-balance">0</span>
+                            </div>
+                            <div class="col">
+                                Unstaked wstETH/WETH : <span id="unstaked-wsteth-weth-optimism-velodrome-balance">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                Staked WETH/rETH : <span id="staked-weth-reth-optimism-velodrome-balance">0</span>
+                            </div>
+                            <div class="col">
+                                Unstaked WETH/rETH : <span id="unstaked-weth-reth-optimism-velodrome-balance">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
             </div>
 
             <!-- Remove Liquidity -->
@@ -466,11 +540,11 @@
 
                 <div class="row">
                     <div class="col">
-                        <button type="button" class="btn btn-dark" id="add-margin-arbitrum-lyra-optionmarket-button">Add margin</button>
+                        <button type="button" class="btn btn-dark" id="add-margin-arbitrum-lyra-button">Add margin</button>
                     </div>
     
                     <div class="col">
-                        <button type="button" class="btn btn-dark" id="add-margin-arbitrum-lyra-optionmarket-button">Remove margin</button>
+                        <button type="button" class="btn btn-dark" id="remove-margin-arbitrum-lyra-button">Remove margin</button>
                     </div>
                 </div>
             </div>
@@ -483,12 +557,10 @@
                 </div>
 
                 <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-dark" id="open-position-arbitrum-lyra-optionmarket-button">Open position</button>
-                    </div>
+
 
                     <div class="col">
-                        <button type="button" class="btn btn-dark" id="close-position-arbitrum-lyra-optionmarket-button">Close position</button>
+                        <button type="button" class="btn btn-dark" id="close-position-arbitrum-lyra-button">Close position</button>
                     </div>
                 </div>
             </div>
