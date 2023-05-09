@@ -6,7 +6,7 @@ const OPTIMISM_VELODROME_ROUTER_INTERACTION = new ethers.Contract(
     PROVIDER
 )
 
-// Perp Vault tokens
+// Velodrome gauge tokens
 const OPTIMISM_VELODROME_TOKENS = {
     'agEUR' : {
         'address' : '0x9485aca5bbBE1667AD97c7fE7C4531a624C8b1ED',
@@ -240,7 +240,7 @@ $(document).ready(async function() {
         // console.log("allowanceLP::", allowanceLP)
     })
 
-    // Velodrome - Optimism - 
+    // Remove liquidity
     $("#remove-liquidity-optimism-velodrome-button").click(async function() {
         const currentDate = new Date()
         const timestamp = currentDate.getTime() / 1000 + 300 // convert ms to s & + 5 minutes
@@ -288,7 +288,7 @@ $(document).ready(async function() {
         console.log("removeLiquidity::", removeLiquidity)
     })
 
-    // Velodrome - Optimism - Withdraw LP
+    // Withdraw LP
     async function withdrawOptimismVelodromeLp(button) {
         const row = button.parent().parent()
         console.log("row::", row)
@@ -301,7 +301,7 @@ $(document).ready(async function() {
 
         console.log("withdrawLP::", withdrawLP)
     }
-    // Velodrome - Optimism - Close position on click
+    // Withdram LP on click
     $('#velodrome-balances').on('click', '.withdraw-optimism-velodrome-button', function() {
         const button = $(this)
         withdrawOptimismVelodromeLp(button)
