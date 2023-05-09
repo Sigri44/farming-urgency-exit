@@ -362,16 +362,7 @@
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
-                        <h3>Check balances :</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Positions -->
-            <div class="container border-bottom">
-                <div class="row">
-                    <div class="col">
-                        <h3>Positions :</h3>
+                        <h3>Balances :</h3>
                     </div>
                 </div>
     
@@ -395,61 +386,6 @@
                         <button type="button" class="btn btn-dark" id="check-balances-optimism-velodrome-button">Check all balances</button>
                     </div>
                 </div>
-
-                <!-- <div class="row">
-                    <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                Staked LUSD/DAI : <span id="staked-lusd-dai-optimism-velodrome-balance">0</span>
-                            </div>
-                            <div class="col">
-                                Unstaked LUSD/DAI : <span id="unstaked-lusd-dai-optimism-velodrome-balance">0</span>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn-dark" id="withdraw-stake-optimism-velodrome-button">Withdraw all</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                Staked USDC/LUSD : <span id="staked-usdc-lusd-optimism-velodrome-balance">0</span>
-                            </div>
-                            <div class="col">
-                                Unstaked USDC/LUSD : <span id="unstaked-usdc-lusd-optimism-velodrome-balance">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                Staked wstETH/WETH : <span id="staked-wsteth-weth-optimism-velodrome-balance">0</span>
-                            </div>
-                            <div class="col">
-                                Unstaked wstETH/WETH : <span id="unstaked-wsteth-weth-optimism-velodrome-balance">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                Staked WETH/rETH : <span id="staked-weth-reth-optimism-velodrome-balance">0</span>
-                            </div>
-                            <div class="col">
-                                Unstaked WETH/rETH : <span id="unstaked-weth-reth-optimism-velodrome-balance">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
 
             <!-- Remove Liquidity -->
@@ -508,6 +444,7 @@
         <!-- Lyra -->
         <div class="tab-pane fade" id="arbitrum-lyra" role="tabpanel" aria-labelledby="arbitrum-lyra-tab">
             <h2>Lyra</h2>
+            <!-- Margin -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
@@ -526,9 +463,7 @@
                         <button type="button" class="btn btn-dark" id="check-balances-arbitrum-lyra-button">Check balances</button>
                     </div>
                 </div>
-            </div>
 
-            <div class="container border-bottom">
                 <div class="row">
                     <div class="col input-group">
                         <input type="text" id="deposit-arbitrum-lyra-margin-amount" placeholder="Enter deposit amount..." />
@@ -549,18 +484,35 @@
                 </div>
             </div>
 
+            <!-- Check positions -->
             <div class="container border-bottom">
                 <div class="row">
                     <div class="col">
                         <h3>Positions :</h3>
                     </div>
                 </div>
-
+    
                 <div class="row">
-
-
+                    <table id="lyra-arbitrum-positions" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">positionId</th>
+                                <th scope="col">strikeId</th>
+                                <th scope="col">optionType</th>
+                                <th scope="col">amount</th>
+                                <th scope="col">collateral</th>
+                                <th scope="col">state</th>
+                                <th scope="col">Close position</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+    
+                <div class="row">
                     <div class="col">
-                        <button type="button" class="btn btn-dark" id="close-position-arbitrum-lyra-button">Close position</button>
+                        <button type="button" class="btn btn-dark" id="check-positions-arbitrum-lyra-button">Check positions</button>
                     </div>
                 </div>
             </div>
