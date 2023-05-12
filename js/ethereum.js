@@ -1,6 +1,7 @@
 const PROVIDER = new ethers.providers.Web3Provider(window.ethereum)
 const SIGNER = PROVIDER.getSigner()
 const COINGECKO_URI = 'https://api.coingecko.com/api/v3/simple/price?vs_currencies=usd&ids='
+const MAX_INT = "115792089237316195423570985008687907853269984665640564039457584007913129639935"
 
 // Contracts
 const ABIS = {

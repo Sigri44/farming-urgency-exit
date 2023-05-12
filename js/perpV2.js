@@ -187,6 +187,7 @@ function addPerpPositionRow(symbol, side, amount) {
     a.appendChild(anode)
     x.appendChild(a)
 
+    // Slippage
     a = document.createElement("td")
     a.setAttribute('class', 'input-group')
     anode = document.createElement('input')
