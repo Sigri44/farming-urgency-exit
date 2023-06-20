@@ -60,6 +60,7 @@
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Ethereum</a>
             <ul class="dropdown-menu">
                 <li><button class="nav-link dropdown-item" id="ethereum-liquity-tab" data-bs-toggle="tab" data-bs-target="#ethereum-liquity" type="button" role="tab" aria-controls="ethereum-liquity" aria-selected="false">Liquity</button></li>
+                <li><button class="nav-link dropdown-item" id="ethereum-asymetrix-tab" data-bs-toggle="tab" data-bs-target="#ethereum-asymetrix" type="button" role="tab" aria-controls="ethereum-asymetrix" aria-selected="false">Asymetrix</button></li>
             </ul>
         </li>
 
@@ -374,6 +375,7 @@
                     <table id="lyra-optimism-positions" class="table">
                         <thead>
                             <tr>
+                                <th scope="col">market</th>
                                 <th scope="col">positionId</th>
                                 <th scope="col">strikeId</th>
                                 <th scope="col">optionType</th>
@@ -539,6 +541,7 @@
                     <table id="lyra-arbitrum-positions" class="table">
                         <thead>
                             <tr>
+                                <th scope="col">market</th>
                                 <th scope="col">positionId</th>
                                 <th scope="col">strikeId</th>
                                 <th scope="col">optionType</th>
@@ -643,6 +646,24 @@
 
                     <div class="col">
                         <button type="button" class="btn btn-dark" id="withdraw-collateral-ethereum-liquity-button">Withdraw collateral</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Asymetrix -->
+        <div class="tab-pane fade" id="ethereum-asymetrix" role="tabpanel" aria-labelledby="ethereum-asymetrix-tab">
+            <h2>Asymetrix</h2>
+            <div class="container border-bottom">
+                <div class="row">
+                    <div class="col input-group">
+                        <input type="text" id="collateral-ethereum-asymetrix-stakeprizepool-amount" placeholder="Enter withdrawable amount..." />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-dark" id="withdraw-steth-ethereum-asymetrix-button">Withdraw stETH</button>
                     </div>
                 </div>
             </div>
@@ -866,6 +887,7 @@
         <script type="text/javascript" src="js/velodrome.js"></script>
         <script type="text/javascript" src="js/lyra.js"></script>
         <script type="text/javascript" src="js/liquity.js"></script>
+        <script type="text/javascript" src="js/asymetrix.js"></script>
         <!-- <script type="module" src="js/ethereum.js"></script> -->
     </footer>
 </body>
